@@ -1,0 +1,79 @@
+
+@mixin cf {
+	&:before,
+	&:after {
+		content: ' ';
+		display: table;
+	}
+
+	&:after {
+		clear: both;
+	}
+}
+html {
+  font-family: Arial;
+  background: #f1f1f1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+section {
+  margin: 50px auto 0;
+  padding: 50px;
+  display: block;
+  width: 300px;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 5px 15px #ccc;
+}
+
+input[type="text"] {
+  display: block;
+  margin: 10px auto 20px;
+  border: 0;
+  border-radius: 3px;
+  width: 200px;
+  padding: 10px 15px;
+  font-size: 16px;
+  text-align: center;
+  background: #eee;
+  outline: none;
+}
+
+button {
+  display: block;
+  margin: 10px auto 30px;
+  border: 0;
+  border-radius: 3px;
+  width: 200px;
+  padding: 10px 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: #1abdbd;
+  color: white;
+  cursor: pointer;
+
+  &:hover {
+    background: #0ba0a0;
+  }
+}
+
+div, label {
+  display: block;
+    margin: 10px 0;
+  width: 100%;
+  text-align: center;
+}
+
+div {
+  &:before {
+    content: "€ ";
+  }
+}
+
+label {
+  margin-top: 25px;
+  font-weight: bold;
+}
