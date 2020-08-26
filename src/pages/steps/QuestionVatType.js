@@ -1,18 +1,25 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
-import Radio from "../form/Radio";
-import Title from "../typo/Title";
-import Button from "../Button";
-import { useQuery, getNextStepUrl } from "../../utils";
+import Radio from "../../components/form/Radio";
+import Title from "../../components/typo/Title";
+import Button from "../../components/Button";
+import { useAppHistory, useQuery } from "../../hooks";
 import { STEPS } from "../../constants";
+import BackButton from "../../components/BackButton";
 
 function QuestionVatType() {
   const { t } = useTranslation();
-  let history = useHistory();
-  let { data } = useQuery();
+  const { nextStep, prevStep } = useAppHistory();
+  const { data } = useQuery();
   const [selection, setSelection] = useState({});
   const [error, setError] = useState();
+
+  useEffect(() => {
+    data?.VAT_TYPE &&
+      setSelection({
+        [STEPS.VAT_TYPE]: data.VAT_TYPE,
+      });
+  }, []);
 
   const inputProps = {
     name: STEPS.VAT_TYPE,
@@ -31,12 +38,24 @@ function QuestionVatType() {
       return;
     }
 
-    history.push(getNextStepUrl(STEPS.SALARY, { ...data, ...selection }));
+    nextStep(selection);
   };
 
-  const minimumInputProps = { ...inputProps, id: "minimum" };
-  const flatInputProps = { ...inputProps, id: "flat" };
-  const simplifiedInputProps = { ...inputProps, id: "simplified" };
+  const minimumInputProps = {
+    ...inputProps,
+    id: "minimum",
+    checked: selection[STEPS.VAT_TYPE] === "minimum",
+  };
+  const flatInputProps = {
+    ...inputProps,
+    id: "flat",
+    checked: selection[STEPS.VAT_TYPE] === "flat",
+  };
+  const simplifiedInputProps = {
+    ...inputProps,
+    id: "simplified",
+    checked: selection[STEPS.VAT_TYPE] === "simplified",
+  };
 
   return (
     <section>
@@ -49,8 +68,8 @@ function QuestionVatType() {
         label={t("Regime semplificato/ordinario")}
         inputProps={simplifiedInputProps}
       />
-
-      <Button onClick={handleSubmit}>Continua</Button>
+      <BackButton onClick={prevStep} />
+      <Button onClick={handleSubmit}>{t("Continua")}</Button>
       {error}
     </section>
   );

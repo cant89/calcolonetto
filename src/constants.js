@@ -5,3 +5,9 @@ export const STEPS = {
   SALARY: "SALARY",
   PENSION: "PENSION",
 };
+
+export const ROUTES = {
+  HOME: "/",
+  GUIDED_STEPS: "/gsteps/",
+  ADVANCED_CONFIGURATOR: "/advconf/",
+};

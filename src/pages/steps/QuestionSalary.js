@@ -1,18 +1,25 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useHistory } from "react-router-dom";
-import InputText from "../form/InputText";
-import Title from "../typo/Title";
-import Button from "../Button";
-import { useQuery, getNextStepUrl } from "../../utils";
+import InputText from "../../components/form/InputText";
+import Title from "../../components/typo/Title";
+import Button from "../../components/Button";
+import { useAppHistory, useQuery } from "../../hooks";
 import { STEPS } from "../../constants";
+import BackButton from "../../components/BackButton";
 
 function QuestionSalary() {
   const { t } = useTranslation();
-  let history = useHistory();
-  let { data } = useQuery();
-  const [selection, setSelection] = useState({});
+  const { nextStep, prevStep } = useAppHistory();
+  const { data } = useQuery();
+  const [selection, setSelection] = useState({ [STEPS.SALARY]: "" });
   const [error, setError] = useState();
+
+  useEffect(() => {
+    data?.SALARY &&
+      setSelection({
+        [STEPS.SALARY]: data.SALARY,
+      });
+  }, []);
 
   const inputProps = {
     name: STEPS.SALARY,
@@ -23,6 +30,7 @@ function QuestionSalary() {
           [target.name]: target.value,
         });
     },
+    value: selection[STEPS.SALARY],
   };
 
   const handleSubmit = () => {
@@ -33,9 +41,7 @@ function QuestionSalary() {
       return;
     }
 
-    console.log(data);
-
-    history.push(getNextStepUrl(STEPS.PENSION, { ...data, ...selection }));
+    nextStep(selection);
   };
 
   return (
@@ -44,7 +50,8 @@ function QuestionSalary() {
         <Title>{t("Quale è il salario annuo lordo?")}</Title>
       </Suspense>
       <InputText inputProps={inputProps} />
-      <Button onClick={handleSubmit}>Continua</Button>
+      <BackButton onClick={prevStep} />
+      <Button onClick={handleSubmit}>{t("Continua")}</Button>
       {error}
     </section>
   );
