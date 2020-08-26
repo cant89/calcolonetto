@@ -1,11 +1,11 @@
 import React, { Suspense, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../components/form/InputText";
-import Title from "../../components/typo/Title";
-import Button from "../../components/Button";
-import { useAppHistory, useQuery } from "../../hooks";
-import { STEPS } from "../../constants";
-import BackButton from "../../components/BackButton";
+import InputText from "../../../components/form/InputText";
+import Title from "../../../components/typo/Title";
+import Button from "../../../components/Button";
+import { useAppHistory, useQuery } from "../../../hooks";
+import { STEPS } from "../../../constants";
+import BackButton from "../../../components/BackButton";
 
 function QuestionSalary() {
   const { t } = useTranslation();

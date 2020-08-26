@@ -1,13 +1,13 @@
 import React, { Suspense, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import Radio from "../../components/form/Radio";
-import Title from "../../components/typo/Title";
-import Button from "../../components/Button";
-import { useAppHistory, useQuery } from "../../hooks";
-import { STEPS } from "../../constants";
-import BackButton from "../../components/BackButton";
+import Radio from "../../../components/form/Radio";
+import Title from "../../../components/typo/Title";
+import Button from "../../../components/Button";
+import { useAppHistory, useQuery } from "../../../hooks";
+import { STEPS } from "../../../constants";
+import BackButton from "../../../components/BackButton";
 
-function QuestionVatType() {
+function QuestionPension() {
   const { t } = useTranslation();
   const { nextStep, prevStep } = useAppHistory();
   const { data } = useQuery();
@@ -15,14 +15,14 @@ function QuestionVatType() {
   const [error, setError] = useState();
 
   useEffect(() => {
-    data?.VAT_TYPE &&
+    data?.PENSION &&
       setSelection({
-        [STEPS.VAT_TYPE]: data.VAT_TYPE,
+        [STEPS.PENSION]: data.PENSION,
       });
   }, []);
 
   const inputProps = {
-    name: STEPS.VAT_TYPE,
+    name: STEPS.PENSION,
     onChange: ({ target }) => {
       setSelection({
         [target.name]: target.id,
@@ -33,7 +33,7 @@ function QuestionVatType() {
   const handleSubmit = () => {
     console.log(selection);
 
-    if (!selection[STEPS.VAT_TYPE]) {
+    if (!selection[STEPS.PENSION]) {
       setError(t("Seleziona una scelta"));
       return;
     }
@@ -60,7 +60,7 @@ function QuestionVatType() {
   return (
     <section>
       <Suspense fallback="loading">
-        <Title>{t("Che tipo di partita IVA possiedi?")}</Title>
+        <Title>{t("Pensione?")}</Title>
       </Suspense>
       <Radio label={t("Regime dei minimi")} inputProps={minimumInputProps} />
       <Radio label={t("Regime forfettario")} inputProps={flatInputProps} />
@@ -75,4 +75,4 @@ function QuestionVatType() {
   );
 }
 
-export default QuestionVatType;
+export default QuestionPension;

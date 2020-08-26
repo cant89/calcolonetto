@@ -1,11 +1,11 @@
 import React, { Suspense, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import Radio from "../../components/form/Radio";
-import Title from "../../components/typo/Title";
-import Button from "../../components/Button";
-import { useAppHistory, useQuery } from "../../hooks";
-import { STEPS } from "../../constants";
-import BackButton from "../../components/BackButton";
+import Radio from "../../../components/form/Radio";
+import Title from "../../../components/typo/Title";
+import Button from "../../../components/Button";
+import { useAppHistory, useQuery } from "../../../hooks";
+import { STEPS } from "../../../constants";
+import BackButton from "../../../components/BackButton";
 
 function QuestionVatType() {
   const { t } = useTranslation();
@@ -15,14 +15,14 @@ function QuestionVatType() {
   const [error, setError] = useState();
 
   useEffect(() => {
-    data?.PENSION &&
+    data?.VAT_TYPE &&
       setSelection({
-        [STEPS.PENSION]: data.PENSION,
+        [STEPS.VAT_TYPE]: data.VAT_TYPE,
       });
   }, []);
 
   const inputProps = {
-    name: STEPS.PENSION,
+    name: STEPS.VAT_TYPE,
     onChange: ({ target }) => {
       setSelection({
         [target.name]: target.id,
@@ -33,7 +33,7 @@ function QuestionVatType() {
   const handleSubmit = () => {
     console.log(selection);
 
-    if (!selection[STEPS.PENSION]) {
+    if (!selection[STEPS.VAT_TYPE]) {
       setError(t("Seleziona una scelta"));
       return;
     }
@@ -60,7 +60,7 @@ function QuestionVatType() {
   return (
     <section>
       <Suspense fallback="loading">
-        <Title>{t("Pensione?")}</Title>
+        <Title>{t("Che tipo di partita IVA possiedi?")}</Title>
       </Suspense>
       <Radio label={t("Regime dei minimi")} inputProps={minimumInputProps} />
       <Radio label={t("Regime forfettario")} inputProps={flatInputProps} />

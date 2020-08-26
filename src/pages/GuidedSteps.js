@@ -1,9 +1,9 @@
 import React from "react";
-import QuestionVat from "./steps/QuestionVat";
-import QuestionVatYear from "./steps/QuestionVatYear";
-import QuestionVatType from "./steps/QuestionVatType";
-import QuestionSalary from "./steps/QuestionSalary";
-import QuestionPension from "./steps/QuestionPension";
+import QuestionVat from "./steps/Questions/Vat";
+import QuestionVatYear from "./steps/Questions/VatYear";
+import QuestionVatType from "./steps/Questions/VatType";
+import QuestionSalary from "./steps/Questions/Salary";
+import QuestionPension from "./steps/Questions/Pension";
 import { useQuery } from "../hooks";
 import { STEPS } from "../constants";
 
