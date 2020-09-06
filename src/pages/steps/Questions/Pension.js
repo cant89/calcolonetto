@@ -1,25 +1,26 @@
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import Radio from "../../../components/form/Radio";
 import Title from "../../../components/typo/Title";
 import Button from "../../../components/Button";
-import { useAppHistory, useQuery } from "../../../hooks";
+import { useAppHistory, useQueryParams } from "../../../hooks";
 import { STEPS } from "../../../constants";
 import BackButton from "../../../components/BackButton";
 
 function QuestionPension() {
   const { t } = useTranslation();
   const { nextStep, prevStep } = useAppHistory();
-  const { data } = useQuery();
+  const { data } = useQueryParams();
   const [selection, setSelection] = useState({});
   const [error, setError] = useState();
+  const dataRef = useRef(data);
 
   useEffect(() => {
-    data?.PENSION &&
+    dataRef?.PENSION &&
       setSelection({
-        [STEPS.PENSION]: data.PENSION,
+        [STEPS.PENSION]: dataRef.PENSION,
       });
-  }, []);
+  }, [dataRef]);
 
   const inputProps = {
     name: STEPS.PENSION,
@@ -59,7 +60,7 @@ function QuestionPension() {
 
   return (
     <section>
-      <Suspense fallback="loading">
+      <Suspense fallback={t("Loading")}>
         <Title>{t("Pensione?")}</Title>
       </Suspense>
       <Radio label={t("Regime dei minimi")} inputProps={minimumInputProps} />

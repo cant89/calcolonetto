@@ -1,7 +1,8 @@
 import { useLocation, useHistory } from "react-router-dom";
-import { STEPS, _STEPS } from "./constants";
+import { STEPS } from "../constants";
+import { getNextStep } from "../stepsManager";
 
-export function useQuery() {
+export function useQueryParams() {
   const res = {};
   const params = new URLSearchParams(useLocation().search);
   for (const [key, value] of params.entries()) {
@@ -15,7 +16,7 @@ export function useQuery() {
 }
 
 export const useNextStepUrl = () => {
-  const { data } = useQuery();
+  const { data } = useQueryParams();
 
   return (step, newData) => {
     const mergedData = { ...data, ...newData };
@@ -23,33 +24,8 @@ export const useNextStepUrl = () => {
   };
 };
 
-const getNextStep = (currentStep, data) => {
-  if (currentStep === STEPS.VAT) {
-    if (data.VAT === "yes") {
-      return STEPS.VAT_YEAR;
-    }
-    if (data.VAT === "no") {
-      return STEPS.SALARY;
-    }
-  }
-
-  if (currentStep === STEPS.VAT_YEAR) {
-    // regime dei minimi - introduced in 2008
-    // regime dei minimi - introduced in 2015
-    if (Number(data.VAT_YEAR) < 2008) {
-      return STEPS.SALARY;
-    }
-
-    return STEPS.VAT_TYPE;
-  }
-
-  if (currentStep === STEPS.VAT_TYPE) {
-    return STEPS.SALARY;
-  }
-};
-
 export const useAppHistory = () => {
-  const { data = {}, step = STEPS.VAT, stepsHistory = [] } = useQuery();
+  const { data = {}, step = STEPS.VAT, stepsHistory = [] } = useQueryParams();
   const history = useHistory();
 
   const nextStep = (payload) => {

@@ -1,25 +1,26 @@
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import InputText from "../../../components/form/InputText";
 import Title from "../../../components/typo/Title";
 import Button from "../../../components/Button";
-import { useAppHistory, useQuery } from "../../../hooks";
+import { useAppHistory, useQueryParams } from "../../../hooks";
 import { STEPS } from "../../../constants";
 import BackButton from "../../../components/BackButton";
 
 function QuestionSalary() {
   const { t } = useTranslation();
   const { nextStep, prevStep } = useAppHistory();
-  const { data } = useQuery();
+  const { data } = useQueryParams();
   const [selection, setSelection] = useState({ [STEPS.SALARY]: "" });
   const [error, setError] = useState();
+  const dataRef = useRef(data);
 
   useEffect(() => {
-    data?.SALARY &&
+    dataRef?.SALARY &&
       setSelection({
-        [STEPS.SALARY]: data.SALARY,
+        [STEPS.SALARY]: dataRef.SALARY,
       });
-  }, []);
+  }, [dataRef]);
 
   const inputProps = {
     name: STEPS.SALARY,
@@ -46,7 +47,7 @@ function QuestionSalary() {
 
   return (
     <section>
-      <Suspense fallback="loading">
+      <Suspense fallback={t("Loading")}>
         <Title>{t("Quale è il salario annuo lordo?")}</Title>
       </Suspense>
       <InputText inputProps={inputProps} />

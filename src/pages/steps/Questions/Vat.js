@@ -1,25 +1,26 @@
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import Radio from "../../../components/form/Radio";
 import Title from "../../../components/typo/Title";
 import Button from "../../../components/Button";
-import { useAppHistory, useQuery } from "../../../hooks";
+import { useAppHistory, useQueryParams } from "../../../hooks";
 import { STEPS } from "../../../constants";
 import BackButton from "../../../components/BackButton";
 
 function QuestionVat() {
   const { t } = useTranslation();
   const { nextStep, prevStep } = useAppHistory();
-  const { data } = useQuery();
+  const { data } = useQueryParams();
   const [selection, setSelection] = useState({});
   const [error, setError] = useState();
+  const dataRef = useRef(data);
 
   useEffect(() => {
-    data?.VAT &&
+    dataRef?.VAT &&
       setSelection({
-        [STEPS.VAT]: data.VAT,
+        [STEPS.VAT]: dataRef.VAT,
       });
-  }, []);
+  }, [dataRef]);
 
   const inputProps = {
     name: STEPS.VAT,

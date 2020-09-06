@@ -4,7 +4,7 @@ import QuestionVatYear from "./steps/Questions/VatYear";
 import QuestionVatType from "./steps/Questions/VatType";
 import QuestionSalary from "./steps/Questions/Salary";
 import QuestionPension from "./steps/Questions/Pension";
-import { useQuery } from "../hooks";
+import { useQueryParams } from "../hooks";
 import { STEPS } from "../constants";
 
 const StepsComponents = {
@@ -16,7 +16,7 @@ const StepsComponents = {
 };
 
 function GuidedSteps() {
-  let { step = STEPS.VAT } = useQuery();
+  let { step = STEPS.VAT } = useQueryParams();
   const Step = StepsComponents[step];
 
   return (
