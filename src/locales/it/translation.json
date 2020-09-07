@@ -5,5 +5,18 @@
   "Loading": "Loading...",
   "Yes": "Si",
   "No": "No",
-  "Select a choice": "Seleziona una scelta"
+  "16/6/2005": "16/6/2005",
+  "Insert the year": "Inserisci l'anno",
+  "Ex: 40000": "Es: 40000",
+  "Select a choice": "Seleziona una scelta",
+  "What's your yearly salary?": "Quale è il salario annuo lordo?",
+  "Insert the salary": "Inserisci il salario",
+  "In which year have you opened the VAT?": "In che anno hai aperto la Parita IVA?",
+  "Which pension scheme do you have to use?": "Quale ente previdenziale devi usare?",
+  "What kind of VAT do you have?": "Che tipo di partita IVA possiedi?",
+  "Regime dei minimi": "Regime dei minimi",
+  "Regime forfettario": "Regime forfettario",
+  "Regime semplificato/ordinario": "Regime semplificato/ordinario",
+  "Gestione separata INPS": "Gestione separata INPS",
+  "I don't know, help me to understand": "Non lo so, aiutami a capirlo"
 }

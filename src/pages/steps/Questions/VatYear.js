@@ -1,58 +1,36 @@
-import React, { Suspense, useState, useEffect, useRef } from "react";
+import React, { Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import InputNumber from "../../../components/form/InputNumber";
 import Title from "../../../components/typo/Title";
 import Button from "../../../components/Button";
-import { useAppHistory, useQueryParams } from "../../../hooks";
+import { useStepManager } from "../../../hooks";
 import { STEPS } from "../../../constants";
 import BackButton from "../../../components/BackButton";
+import InputText from "../../../components/form/InputText";
 
 function QuestionVatYear() {
   const { t } = useTranslation();
-  const { nextStep, prevStep } = useAppHistory();
-  const { data } = useQueryParams();
-  const [selection, setSelection] = useState({ [STEPS.VAT_YEAR]: "" });
-  const [error, setError] = useState();
-  const dataRef = useRef(data);
 
-  useEffect(() => {
-    dataRef?.VAT_YEAR &&
-      setSelection({
-        [STEPS.VAT_YEAR]: dataRef.VAT_YEAR,
-      });
-  }, [dataRef]);
-
-  const inputProps = {
-    name: STEPS.VAT_YEAR,
-    placeholder: "Inserisci qui l'anno",
-    onChange: ({ target }) => {
-      if (target.value)
-        setSelection({
-          [target.name]: target.value,
-        });
+  const { inputsProps, handleSubmit, error, prevStep } = useStepManager({
+    initialState: { [STEPS.VAT_YEAR]: "" },
+    stepKey: STEPS.VAT_YEAR,
+    errorMessage: t("Insert the year"),
+    inputs: {
+      year: {
+        id: STEPS.VAT_YEAR,
+        placeholder: t("16/6/2005"),
+        type: "input",
+      },
     },
-    value: selection[STEPS.VAT_YEAR],
-  };
-
-  const handleSubmit = () => {
-    console.log(selection);
-
-    if (!selection[STEPS.VAT_YEAR]) {
-      setError(t("Inserisci l'anno"));
-      return;
-    }
-
-    nextStep(selection);
-  };
+  });
 
   return (
     <section>
       <Suspense fallback={t("Loading")}>
-        <Title>{t("In che anno hai aperto la Parita IVA?")}</Title>
+        <Title>{t("In which year have you opened the VAT?")}</Title>
       </Suspense>
-      <InputNumber inputProps={inputProps} />
+      <InputText inputProps={inputsProps.year} />
       <BackButton onClick={prevStep} />
-      <Button onClick={handleSubmit}>{t("Continua")}</Button>
+      <Button onClick={handleSubmit}>{t("Continue")}</Button>
       {error}
     </section>
   );

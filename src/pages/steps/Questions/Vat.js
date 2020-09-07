@@ -1,65 +1,37 @@
-import React, { Suspense, useState, useEffect, useRef } from "react";
+import React, { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import Radio from "../../../components/form/Radio";
 import Title from "../../../components/typo/Title";
 import Button from "../../../components/Button";
-import { useAppHistory, useQueryParams } from "../../../hooks";
+import { useStepManager } from "../../../hooks";
 import { STEPS } from "../../../constants";
 import BackButton from "../../../components/BackButton";
 
 function QuestionVat() {
   const { t } = useTranslation();
-  const { nextStep, prevStep } = useAppHistory();
-  const { data } = useQueryParams();
-  const [selection, setSelection] = useState({});
-  const [error, setError] = useState();
-  const dataRef = useRef(data);
-
-  useEffect(() => {
-    dataRef?.VAT &&
-      setSelection({
-        [STEPS.VAT]: dataRef.VAT,
-      });
-  }, [dataRef]);
-
-  const inputProps = {
-    name: STEPS.VAT,
-    onChange: ({ target }) => {
-      setSelection({
-        [target.name]: target.id,
-      });
+  const { inputsProps, handleSubmit, error, prevStep } = useStepManager({
+    initialState: {},
+    stepKey: STEPS.VAT,
+    errorMessage: t("Select a choice"),
+    inputs: {
+      yes: {
+        id: "yes",
+        type: "radio",
+      },
+      no: {
+        id: "no",
+        type: "radio",
+      },
     },
-  };
-
-  const handleSubmit = () => {
-    console.log(selection);
-
-    if (!selection[STEPS.VAT]) {
-      setError(t("Select a choice"));
-      return;
-    }
-
-    nextStep(selection);
-  };
-
-  const yesInputProps = {
-    ...inputProps,
-    id: "yes",
-    checked: selection[STEPS.VAT] === "yes",
-  };
-  const noInputProps = {
-    ...inputProps,
-    id: "no",
-    checked: selection[STEPS.VAT] === "no",
-  };
+  });
 
   return (
     <section>
       <Suspense fallback={t("Loading")}>
         <Title>{t("Do you already have a VAT?")}</Title>
       </Suspense>
-      <Radio label={t("Yes")} inputProps={yesInputProps} />
-      <Radio label={t("No")} inputProps={noInputProps} />
+      <Radio label={t("Yes")} inputProps={inputsProps.yes} />
+      <Radio label={t("No")} inputProps={inputsProps.no} />
       <BackButton onClick={prevStep} />
       <Button onClick={handleSubmit}>{t("Continue")}</Button>
       {error}

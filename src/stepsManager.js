@@ -23,6 +23,10 @@ const isVatType = (data) => {
   return STEPS.SALARY;
 };
 
+const isSalary = (data) => {
+  return STEPS.PENSION;
+};
+
 export const getNextStep = (currentStep, data) => {
   switch (currentStep) {
     case STEPS.VAT:
@@ -31,6 +35,8 @@ export const getNextStep = (currentStep, data) => {
       return isVatYear(data);
     case STEPS.VAT_TYPE:
       return isVatType(data);
+    case STEPS.SALARY:
+      return isSalary(data);
     default:
       return STEPS.VAT;
   }

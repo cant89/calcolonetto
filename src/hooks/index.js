@@ -1,3 +1,4 @@
+import { useRef, useMemo, useState, useEffect, useCallback } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { STEPS } from "../constants";
 import { getNextStep } from "../stepsManager";
@@ -58,4 +59,88 @@ export const useAppHistory = () => {
   };
 
   return { nextStep, prevStep };
+};
+
+export const useStepManager = ({
+  stepKey,
+  errorMessage,
+  inputs,
+  initialState,
+}) => {
+  const { data } = useQueryParams();
+  const dataRef = useRef(data);
+  const { nextStep, prevStep } = useAppHistory();
+  const [selection, setSelection] = useState(initialState);
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    const { [stepKey]: stepVal } = dataRef?.current || {};
+
+    stepVal !== undefined &&
+      setSelection({
+        [stepKey]: stepVal,
+      });
+  }, [dataRef, stepKey, setSelection]);
+
+  const getOnChangeByType = useCallback((type) => {
+    if (type === "input") {
+      return ({ target }) => {
+        setSelection({
+          [target.name]: target.value || "",
+        });
+      };
+    }
+
+    if (type === "radio") {
+      return ({ target }) => {
+        setSelection({
+          [target.name]: target.id,
+        });
+      };
+    }
+
+    return () => {
+      console.error("no onChange fn found!");
+    };
+  }, []);
+
+  const inputsProps = useMemo(
+    () =>
+      Object.keys(inputs).reduce((acc, key) => {
+        const { id, type, ...rest } = inputs[key];
+
+        return {
+          ...acc,
+          [key]: {
+            id,
+            name: stepKey,
+            checked: type === "radio" ? selection[stepKey] === id : undefined,
+            value: type === "input" ? selection[stepKey] : undefined,
+            onChange: getOnChangeByType(type),
+            ...rest,
+          },
+        };
+      }, {}),
+    [inputs, selection, getOnChangeByType, stepKey]
+  );
+
+  const handleSubmit = () => {
+    console.log(selection);
+
+    if (!selection[stepKey]) {
+      setError(errorMessage);
+      return;
+    }
+
+    nextStep(selection);
+  };
+
+  return {
+    selection,
+    inputsProps,
+    handleSubmit,
+    error,
+    nextStep,
+    prevStep,
+  };
 };
