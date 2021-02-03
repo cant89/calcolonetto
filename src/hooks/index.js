@@ -82,29 +82,7 @@ export const useStepManager = ({
       });
   }, [dataRef, stepKey, setSelection]);
 
-  const getOnChangeByType = useCallback((type) => {
-    if (type === "input") {
-      return ({ target }) => {
-        setSelection({
-          [target.name]: target.value || "",
-        });
-      };
-    }
-
-    if (type === "radio") {
-      return ({ target }) => {
-        setSelection({
-          [target.name]: target.id,
-        });
-      };
-    }
-
-    return () => {
-      console.error("no onChange fn found!");
-    };
-  }, []);
-
-  const inputsProps = useMemo(
+  const inputProps = useMemo(
     () =>
       Object.keys(inputs).reduce((acc, key) => {
         const { id, type, ...rest } = inputs[key];
@@ -116,12 +94,16 @@ export const useStepManager = ({
             name: stepKey,
             checked: type === "radio" ? selection[stepKey] === id : undefined,
             value: type === "input" ? selection[stepKey] : undefined,
-            onChange: getOnChangeByType(type),
+            onChange: ({ target }) => {
+              setSelection({
+                [stepKey]: target.value,
+              });
+            },
             ...rest,
           },
         };
       }, {}),
-    [inputs, selection, getOnChangeByType, stepKey]
+    [inputs, selection, stepKey]
   );
 
   const handleSubmit = () => {
@@ -135,9 +117,11 @@ export const useStepManager = ({
     nextStep(selection);
   };
 
+  console.log(selection, inputProps);
+
   return {
     selection,
-    inputsProps,
+    inputProps,
     handleSubmit,
     error,
     nextStep,

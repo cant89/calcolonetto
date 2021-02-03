@@ -1,18 +1,22 @@
 import React, { Suspense } from "react";
-import { useTranslation } from "react-i18next";
-import Radio from "../../../components/form/Radio";
+
 import Title from "../../../components/typo/Title";
-import Button from "../../../components/Button";
+import Radio from "../../../components/form/Radio";
+import ActionsBar from "../../../components/ActionsBar";
 import { useStepManager } from "../../../hooks";
 import { STEPS } from "../../../constants";
-import BackButton from "../../../components/BackButton";
 
-function QuestionVat() {
-  const { t } = useTranslation();
-  const { inputsProps, handleSubmit, error, prevStep } = useStepManager({
+function QuestionVat({ t, className }) {
+  const {
+    inputProps,
+    handleSubmit,
+    error,
+    prevStep,
+    selection,
+  } = useStepManager({
     initialState: {},
     stepKey: STEPS.VAT,
-    errorMessage: t("Select a choice"),
+    errorMessage: t("Seleziona una opzione"),
     inputs: {
       yes: {
         id: "yes",
@@ -26,14 +30,19 @@ function QuestionVat() {
   });
 
   return (
-    <section>
+    <section className={className}>
       <Suspense fallback={t("Loading")}>
-        <Title>{t("Do you already have a VAT?")}</Title>
+        <Title>{t("Possiedi già una Partita IVA?")}</Title>
       </Suspense>
-      <Radio label={t("Yes")} inputProps={inputsProps.yes} />
-      <Radio label={t("No")} inputProps={inputsProps.no} />
-      <BackButton onClick={prevStep} />
-      <Button onClick={handleSubmit}>{t("Continue")}</Button>
+
+      <Radio.Group
+        onChange={inputProps.yes.onChange}
+        value={selection[STEPS.VAT]}
+      >
+        <Radio value={inputProps.yes.id}>{t("Si")}</Radio>
+        <Radio value={inputProps.no.id}>{t("No")}</Radio>
+      </Radio.Group>
+      <ActionsBar onPrevClick={prevStep} onNextClick={handleSubmit} />
       {error}
     </section>
   );

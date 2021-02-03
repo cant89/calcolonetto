@@ -1,5 +1,8 @@
-import React from "react";
+import { Typography } from "antd";
+import styled from "styled-components";
 
-export default function Title({ children, tag = "h2" }) {
-  return <h2>{children}</h2>;
-}
+export default styled(Typography.Title)`
+  &&& {
+    margin-bottom: 32px;
+  }
+`;

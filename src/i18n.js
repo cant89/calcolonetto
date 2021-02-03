@@ -18,7 +18,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    debug: process.env !== "production",
+    debug: false, //process.env !== "production",
     lng: "it",
     fallbackLng: "it",
     keySeparator: false,

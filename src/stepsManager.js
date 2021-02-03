@@ -11,7 +11,7 @@ const isVat = (data) => {
 
 const isVatYear = (data) => {
   // regime dei minimi - introduced in 2008
-  // regime dei minimi - introduced in 2015
+  // regime forfettario - introduced in 2015
   if (Number(data.VAT_YEAR) < 2008) {
     return STEPS.SALARY;
   }

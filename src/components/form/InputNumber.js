@@ -1,10 +1,8 @@
-import React from "react";
+import { InputNumber } from "antd";
+import styled from "styled-components";
 
-export default function InputNumber({ label, inputProps }) {
-  return (
-    <div>
-      {label}
-      <input type="number" {...inputProps} />
-    </div>
-  );
-}
+export default styled(InputNumber)`
+  font-size: 16px;
+  padding: 4px 8px;
+  width: ${({ width }) => (width ? width : "auto")};
+`;
