@@ -9,6 +9,8 @@ export default styled(Radio)`
   .ant-radio-inner {
     width: 20px;
     height: 20px;
+    border-color: ${({ hasError, theme }) =>
+      hasError ? theme.colors.error : ""};
 
     &:after {
       width: 12px;

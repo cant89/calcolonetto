@@ -1,4 +1,4 @@
-import { STEPS } from "./constants";
+import { STEPS } from "../constants";
 
 const isVat = (data) => {
   if (data.VAT === "yes") {
@@ -19,12 +19,20 @@ const isVatYear = (data) => {
   return STEPS.VAT_TYPE;
 };
 
-const isVatType = (data) => {
+const isVatType = () => {
   return STEPS.SALARY;
 };
 
 const isSalary = (data) => {
+  return STEPS.ATECO;
+};
+
+const isAteco = (data) => {
   return STEPS.PENSION;
+};
+
+const isPension = (data) => {
+  return STEPS.RESULTS;
 };
 
 export const getNextStep = (currentStep, data) => {
@@ -37,6 +45,10 @@ export const getNextStep = (currentStep, data) => {
       return isVatType(data);
     case STEPS.SALARY:
       return isSalary(data);
+    case STEPS.ATECO:
+      return isAteco(data);
+    case STEPS.PENSION:
+      return isPension(data);
     default:
       return STEPS.VAT;
   }

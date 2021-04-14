@@ -19,13 +19,15 @@ function Home() {
             Calcola il netto <br /> dal lordo.
           </Typography.Title>
           <Typography.Title level={3}>
-            {t(
-              `Stima al volo il salario netto, ${(
-                <br />
-              )} le tasse da pagare e la pensione da versare ${(
-                <br />
-              )} in base al tuo salario annuo lordo.`
-            )}
+            <div
+              dangerouslySetInnerHTML={{
+                __html: t(
+                  `Stima al volo il salario netto,<br /> 
+                  le tasse da pagare e la pensione da versare <br />
+                  in base al tuo salario annuo lordo.`
+                ),
+              }}
+            />
           </Typography.Title>
           <Typography.Title level={4} color="primary">
             {t("Facile. Veloce. Gratis.")}
@@ -41,7 +43,7 @@ function Home() {
         </Col>
 
         <Col span={8}>
-          <img src="/images/intro.svg" />
+          <img src="/images/intro.svg" alt="calcola salario netto da lordo" />
         </Col>
       </Home.Intro>
     </section>

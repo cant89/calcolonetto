@@ -10,7 +10,7 @@ const Header = (props) => {
 };
 
 export default styled(Header)`
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid ${(props) => props.theme.colors.border};
   display: flex;
   justify-content: center;
 

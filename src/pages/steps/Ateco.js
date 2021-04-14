@@ -1,0 +1,119 @@
+import React, { useEffect, useState } from "react";
+import { Typography, AutoComplete, Input, Layout, Alert } from "antd";
+import { CheckCircleOutlined } from "@ant-design/icons";
+import { useQuery } from "react-query";
+
+import Title from "../../components/typo/Title";
+import ActionsBar from "../../components/ActionsBar";
+import useStepManager from "../../hooks/useStepManager";
+import { STEPS } from "../../constants";
+import getAtecoCodes from "../../services/getAtecoCodes";
+
+const { Paragraph, Text } = Typography;
+
+function QuestionAteco({ t, className }) {
+  const {
+    handleChange,
+    handleSubmit,
+    prevStep,
+    error,
+    selection,
+  } = useStepManager({
+    stepKey: STEPS.ATECO,
+    errorMessage: t("Seleziona una opzione"),
+  });
+
+  const [value, setValue] = useState("");
+  const [options, setOptions] = useState([]);
+  const [selectedCode, setSelectedCode] = useState();
+
+  const { data } = useQuery("ateco", getAtecoCodes, {
+    onSuccess: (data) => {
+      if (selection[STEPS.ATECO]) {
+        setSelectedCode(
+          data.find((el) => el.atecoCode === selection[STEPS.ATECO])
+        );
+      }
+    },
+  });
+
+  const onSearch = (searchText = "") => {
+    const res = data
+      .filter((el) =>
+        el.sottocategoria.titolo
+          ?.toLowerCase()
+          .includes(searchText.toLowerCase())
+      )
+      .map((el) => {
+        return {
+          label: el.sottocategoria?.titolo,
+          value: el.sottocategoria?.titolo,
+          item: el,
+        };
+      });
+
+    setOptions(res);
+  };
+
+  const onSelect = (data, { item }) => {
+    setSelectedCode(item);
+    handleChange(item.atecoCode);
+  };
+
+  const onChange = (data) => {
+    setValue(data);
+  };
+
+  return (
+    <section className={className}>
+      <Title>{t("Che mestiere fai?")}</Title>
+      <Paragraph>
+        Cerca il tuo mestiere per parola chiave in modo da ottenere il codice
+        ATECO che più rispecchia il tipo di attività che svolgi. Per una analisi
+        più approfondita visita{" "}
+        <a href="https://www.codiceateco.it/" target="_blank">
+          il sito ufficiale
+        </a>{" "}
+        o contatta un commercialista.
+      </Paragraph>
+      <AutoComplete
+        value={value}
+        options={options}
+        style={{
+          width: 500,
+        }}
+        onSelect={onSelect}
+        onSearch={onSearch}
+        onChange={onChange}
+      >
+        <Input.Search
+          size="large"
+          placeholder='Cerca per parola chiave (Es. "studi legali")'
+        />
+      </AutoComplete>
+      {selectedCode && (
+        <div style={{ display: "flex", margin: "32px 16px" }}>
+          <CheckCircleOutlined
+            style={{
+              color: "green",
+              fontSize: "30px",
+              marginRight: "16px",
+              marginTop: "4px",
+            }}
+          />
+          <div>
+            <Text> Codice ATECO selezionato: </Text>
+            <Text strong>{selectedCode.atecoCode}</Text>
+            <br />
+            <Text> Coefficiente di redditività: </Text>
+            <Text strong>{selectedCode.coeff}%</Text>
+          </div>
+        </div>
+      )}
+
+      <ActionsBar onPrevClick={prevStep} onNextClick={handleSubmit} />
+    </section>
+  );
+}
+
+export default QuestionAteco;

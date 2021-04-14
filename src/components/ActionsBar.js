@@ -8,7 +8,7 @@ const ActionsBar = ({ className, onNextClick, onPrevClick }) => {
   const { t } = useTranslation();
   return (
     <div className={className}>
-      <BackButton onClick={onPrevClick} />
+      {onPrevClick ? <BackButton onClick={onPrevClick} /> : <div />}
       <Button type="primary" onClick={onNextClick}>
         {t("Continua")}
       </Button>

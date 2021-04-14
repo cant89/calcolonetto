@@ -4,12 +4,14 @@ import { PageHeader } from "antd";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 
-import QuestionVat from "./steps/Questions/Vat";
-import QuestionVatYear from "./steps/Questions/VatYear";
-import QuestionVatType from "./steps/Questions/VatType";
-import QuestionSalary from "./steps/Questions/Salary";
-import QuestionPension from "./steps/Questions/Pension";
-import { useQueryParams } from "../hooks";
+import QuestionVat from "./steps/Vat";
+import QuestionVatYear from "./steps/VatYear";
+import QuestionVatType from "./steps/VatType";
+import QuestionSalary from "./steps/Salary";
+import QuestionAteco from "./steps/Ateco";
+import QuestionPension from "./steps/Pension";
+import Results from "./steps/Results";
+import useQueryParams from "../hooks/useQueryParams";
 import { STEPS } from "../constants";
 
 const StepsComponents = {
@@ -17,7 +19,9 @@ const StepsComponents = {
   [STEPS.SALARY]: QuestionSalary,
   [STEPS.VAT_YEAR]: QuestionVatYear,
   [STEPS.VAT_TYPE]: QuestionVatType,
+  [STEPS.ATECO]: QuestionAteco,
   [STEPS.PENSION]: QuestionPension,
+  [STEPS.RESULTS]: Results,
 };
 
 function GuidedSteps({ className }) {
@@ -42,6 +46,6 @@ export default styled(GuidedSteps)`
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  border: 1px solid #e2e2e2;
+  border: 1px solid ${(props) => props.theme.colors.border};
   border-radius: 8px;
 `;
