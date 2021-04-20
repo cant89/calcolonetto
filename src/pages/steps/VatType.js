@@ -3,7 +3,7 @@ import Radio from "../../components/form/Radio";
 import Title from "../../components/typo/Title";
 import ActionsBar from "../../components/ActionsBar";
 import useStepManager from "../../hooks/useStepManager";
-import { STEPS, VAT_TYPES } from "../../constants";
+import { STEPS, VAT_TYPE_TYPES } from "../../constants";
 
 function QuestionVatType({ t }) {
   const {
@@ -25,15 +25,15 @@ function QuestionVatType({ t }) {
         onChange={({ target }) => handleChange(target.value)}
         value={selection[STEPS.VAT_TYPE]}
       >
-        <Radio hasError={Boolean(error)} value={VAT_TYPES.MINIMI}>
+        <Radio hasError={Boolean(error)} value={VAT_TYPE_TYPES.MINIMI}>
           {" "}
           {t("Regime dei minimi")}{" "}
         </Radio>
-        <Radio hasError={Boolean(error)} value={VAT_TYPES.FORFETTARIO}>
+        <Radio hasError={Boolean(error)} value={VAT_TYPE_TYPES.FORFETTARIO}>
           {" "}
           {t("Regime forfettario")}{" "}
         </Radio>
-        <Radio hasError={Boolean(error)} value={VAT_TYPES.SEMPLIFICATO}>
+        <Radio hasError={Boolean(error)} value={VAT_TYPE_TYPES.SEMPLIFICATO}>
           {t("Regime semplificato/ordinario")}
         </Radio>
       </Radio.Group>

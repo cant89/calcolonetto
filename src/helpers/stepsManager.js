@@ -1,10 +1,10 @@
-import { STEPS } from "../constants";
+import { STEPS, VAT_TYPES } from "../constants";
 
 const isVat = (data) => {
-  if (data.VAT === "yes") {
+  if (data.VAT === VAT_TYPES.YES) {
     return STEPS.VAT_YEAR;
   }
-  if (data.VAT === "no") {
+  if (data.VAT === VAT_TYPES.NO) {
     return STEPS.SALARY;
   }
 };

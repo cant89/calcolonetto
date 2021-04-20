@@ -30,11 +30,12 @@ const useAppHistory = () => {
     }
 
     const newStepsHistory = stepsHistory.splice(-1, 1);
+    const { [prevStep]: preStepData, ...newData } = data;
 
     history.push(
       `?step=${prevStep}&stepsHistory=${JSON.stringify(
         newStepsHistory
-      )}&data=${JSON.stringify(data)}`
+      )}&data=${JSON.stringify(newData)}`
     );
   };
 
