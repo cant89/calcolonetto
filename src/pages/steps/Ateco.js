@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Typography, AutoComplete, Input, Layout, Alert } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { useQuery } from "react-query";
+import styled from "styled-components";
 
 import Title from "../../components/typo/Title";
 import ActionsBar from "../../components/ActionsBar";
@@ -39,10 +40,12 @@ function QuestionAteco({ t, className }) {
 
   const onSearch = (searchText = "") => {
     const res = data
-      .filter((el) =>
-        el.sottocategoria.titolo
-          ?.toLowerCase()
-          .includes(searchText.toLowerCase())
+      .filter(
+        (el) =>
+          el.sottocategoria.titolo
+            ?.toLowerCase()
+            .includes(searchText.toLowerCase()) ||
+          el.atecoCode.includes(searchText.toLowerCase())
       )
       .map((el) => {
         return {
@@ -93,14 +96,7 @@ function QuestionAteco({ t, className }) {
       </AutoComplete>
       {selectedCode && (
         <div style={{ display: "flex", margin: "32px 16px" }}>
-          <CheckCircleOutlined
-            style={{
-              color: "green",
-              fontSize: "30px",
-              marginRight: "16px",
-              marginTop: "4px",
-            }}
-          />
+          <SelectedCodeIcon />
           <div>
             <Text> Codice ATECO selezionato: </Text>
             <Text strong>{selectedCode.atecoCode}</Text>
@@ -115,5 +111,14 @@ function QuestionAteco({ t, className }) {
     </section>
   );
 }
+
+QuestionAteco.SelectedCodeIcon = styled(CheckCircleOutlined)`
+  color: ${(props) => props.theme.colors.primaryText};
+  font-size: 30px;
+  margin-right: 16px;
+  margin-top: 4px;
+`;
+
+const { SelectedCodeIcon } = QuestionAteco;
 
 export default QuestionAteco;

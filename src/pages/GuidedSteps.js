@@ -24,24 +24,25 @@ const StepsComponents = {
   [STEPS.RESULTS]: Results,
 };
 
-function GuidedSteps({ className }) {
+function GuidedSteps() {
   const { t } = useTranslation();
   const history = useHistory();
 
   let { step = STEPS.VAT } = useQueryParams();
   const Step = StepsComponents[step];
+  const Wrapper = step === STEPS.RESULTS ? ResultsWrapper : StepsWrapper;
 
   return (
     <>
       <PageHeader onBack={() => history.push("/")} title="Esci" />
-      <section className={className}>
+      <Wrapper>
         <Step t={t} />
-      </section>
+      </Wrapper>
     </>
   );
 }
 
-export default styled(GuidedSteps)`
+GuidedSteps.StepsWrapper = styled.section`
   padding: 40px;
   width: 100%;
   max-width: 600px;
@@ -49,3 +50,14 @@ export default styled(GuidedSteps)`
   border: 1px solid ${(props) => props.theme.colors.border};
   border-radius: 8px;
 `;
+
+GuidedSteps.ResultsWrapper = styled.section`
+  padding: 40px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+`;
+
+const { StepsWrapper, ResultsWrapper } = GuidedSteps;
+
+export default GuidedSteps;

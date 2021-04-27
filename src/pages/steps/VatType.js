@@ -26,15 +26,13 @@ function QuestionVatType({ t }) {
         value={selection[STEPS.VAT_TYPE]}
       >
         <Radio hasError={Boolean(error)} value={VAT_TYPE_TYPES.MINIMI}>
-          {" "}
-          {t("Regime dei minimi")}{" "}
+          Regime dei minimi
         </Radio>
         <Radio hasError={Boolean(error)} value={VAT_TYPE_TYPES.FORFETTARIO}>
-          {" "}
-          {t("Regime forfettario")}{" "}
+          Regime forfettario
         </Radio>
         <Radio hasError={Boolean(error)} value={VAT_TYPE_TYPES.SEMPLIFICATO}>
-          {t("Regime semplificato/ordinario")}
+          Regime semplificato/ordinario
         </Radio>
       </Radio.Group>
       <ActionsBar onPrevClick={prevStep} onNextClick={handleSubmit} />

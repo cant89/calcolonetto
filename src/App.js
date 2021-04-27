@@ -18,6 +18,9 @@ import Header from "./components/Header";
 
 const theme = {
   colors: {
+    primary: "#00ffde",
+    primaryText: "#000",
+    primaryTextLight: "#717171",
     border: "#d9d9d9",
     error: "#ff0505",
   },

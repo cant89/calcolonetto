@@ -4,9 +4,15 @@ import { message } from "antd";
 import { STEPS } from "../constants";
 import { getNextStep } from "../helpers/stepsManager";
 import useQueryParams from "./useQueryParams";
+import { useMemo } from "react";
 
 const useAppHistory = () => {
-  const { data = {}, step = STEPS.VAT, stepsHistory = [] } = useQueryParams();
+  const {
+    data = {},
+    resData = {},
+    step = STEPS.VAT,
+    stepsHistory = [],
+  } = useQueryParams();
   const history = useHistory();
 
   const nextStep = (payload) => {
@@ -22,15 +28,15 @@ const useAppHistory = () => {
   };
 
   const prevStep = () => {
-    const prevStep = stepsHistory.pop(-1);
+    const prevStep = stepsHistory[stepsHistory.length - 1];
 
     if (!prevStep) {
       history.push("/");
       return;
     }
 
-    const newStepsHistory = stepsHistory.splice(-1, 1);
-    const { [prevStep]: preStepData, ...newData } = data;
+    const newStepsHistory = stepsHistory.splice(0, stepsHistory.length - 1);
+    const { [step]: removedCurrentStepData, ...newData } = data;
 
     history.push(
       `?step=${prevStep}&stepsHistory=${JSON.stringify(
@@ -39,16 +45,52 @@ const useAppHistory = () => {
     );
   };
 
-  return { nextStep, prevStep };
+  const updateHistoryData = (key, value) => {
+    const isKeyInData = data[key] !== undefined;
+    console.log(isKeyInData, data, key, value);
+
+    const unchangedHistory = `?step=${step}&stepsHistory=${JSON.stringify(
+      stepsHistory
+    )}`;
+
+    if (isKeyInData) {
+      const mergedData = {
+        ...data,
+        [key]: value,
+      };
+
+      history.push(
+        `${unchangedHistory}&data=${JSON.stringify(
+          mergedData
+        )}&resData=${JSON.stringify(resData)}`
+      );
+    } else {
+      const mergedResData = {
+        ...resData,
+        [key]: value,
+      };
+
+      history.push(
+        `${unchangedHistory}&data=${JSON.stringify(
+          data
+        )}&resData=${JSON.stringify(mergedResData)}`
+      );
+    }
+  };
+
+  return { nextStep, prevStep, updateHistoryData };
 };
 
 const useStepManager = ({ stepKey, errorMessage, isValid = () => true }) => {
-  const { data = {} } = useQueryParams();
+  const { data = {}, resData = {} } = useQueryParams();
   const dataRef = useRef(data);
-  const { nextStep, prevStep } = useAppHistory();
-  const [selection, setSelection] = useState(data);
+  const { nextStep, prevStep, updateHistoryData } = useAppHistory();
+  const [selection, setSelection] = useState({ ...resData, ...data });
   const [error, setError] = useState();
   const timeout = useRef();
+  const memoizedAggregatedData = useMemo(() =>
+    JSON.stringify({ ...resData, ...data })
+  );
 
   useEffect(() => {
     const { [stepKey]: stepVal } = dataRef?.current || {};
@@ -96,6 +138,12 @@ const useStepManager = ({ stepKey, errorMessage, isValid = () => true }) => {
     }
   }, [error]);
 
+  useEffect(() => {
+    if (JSON.stringify(selection) !== memoizedAggregatedData) {
+      setSelection(data);
+    }
+  }, [memoizedAggregatedData]);
+
   return {
     selection,
     handleSubmit,
@@ -103,6 +151,7 @@ const useStepManager = ({ stepKey, errorMessage, isValid = () => true }) => {
     error,
     nextStep,
     prevStep,
+    updateHistoryData,
   };
 };
 

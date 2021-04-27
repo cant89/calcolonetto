@@ -64,3 +64,63 @@ export const PENSION_TYPE_TYPES = {
   cnpadc: "cnpadc",
   cnpr: "cnpr",
 };
+
+export const IRPEF_REGIONAL_ADDITIONS = {
+  emiliaRomagna: [
+    {
+      from: 0,
+      to: 15000,
+      tax: 1.33,
+    },
+    {
+      from: 15001,
+      to: 28000,
+      tax: 1.93,
+    },
+    {
+      from: 28001,
+      to: 55000,
+      tax: 2.03,
+    },
+    {
+      from: 55001,
+      to: 75000,
+      tax: 2.23,
+    },
+    {
+      from: 75001,
+      to: 99999999999,
+      tax: 2.33,
+    },
+  ],
+};
+
+export const IRPEF_MUNICIPALITY_ADDITION = {
+  sample: [
+    {
+      from: 0,
+      to: 15000,
+      tax: 0.55,
+    },
+    {
+      from: 15001,
+      to: 28000,
+      tax: 0.57,
+    },
+    {
+      from: 28001,
+      to: 55000,
+      tax: 0.7,
+    },
+    {
+      from: 55001,
+      to: 75000,
+      tax: 0.75,
+    },
+    {
+      from: 75001,
+      to: 99999999999,
+      tax: 0.8,
+    },
+  ],
+};

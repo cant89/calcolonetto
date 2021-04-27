@@ -3,10 +3,19 @@ import {
   VAT_TYPES,
   IRPEF_SEMPLIFICATO,
   PENSION_TYPE_TYPES,
+  IRPEF_REGIONAL_ADDITIONS,
+  IRPEF_MUNICIPALITY_ADDITION,
 } from "../constants";
 
+const calcIncrmentalTax = ({ schema, amount }) =>
+  schema.reduce((tot, { from, to, tax }) => {
+    const increment =
+      amount < from ? 0 : ((Math.min(to, amount) - from) / 100) * tax;
+    return tot + increment;
+  }, 0);
+
 const getVatType = ({ SALARY, VAT }) => {
-  if (Number(SALARY) < 65000 && VAT === VAT_TYPES.NO) {
+  if (SALARY < 65000 && VAT === VAT_TYPES.NO) {
     return VAT_TYPE_TYPES.FORFETTARIO;
   }
 
@@ -47,15 +56,50 @@ const getTaxesIrpef = ({ vat, irpefTaxableSalary }) => {
   if (vat.type === VAT_TYPE_TYPES.SEMPLIFICATO) {
     return {
       percentage: IRPEF_SEMPLIFICATO,
-      amount: IRPEF_SEMPLIFICATO.reduce((tot, { from, to, tax }) => {
-        const increment =
-          irpefTaxableSalary < from
-            ? 0
-            : ((Math.min(to, irpefTaxableSalary) - from) / 100) * tax;
-        return tot + increment;
-      }, 0),
+      amount: calcIncrmentalTax({
+        schema: IRPEF_SEMPLIFICATO,
+        amount: irpefTaxableSalary,
+      }),
     };
   }
+};
+
+const getTaxesIrpefRegional = ({ vat, irpefTaxableSalary }) => {
+  if (vat.type !== VAT_TYPE_TYPES.SEMPLIFICATO) {
+    return {
+      amount: 0,
+      percentage: 0,
+    };
+  }
+
+  const region = "emiliaRomagna";
+
+  return {
+    percentage: IRPEF_REGIONAL_ADDITIONS[region],
+    amount: calcIncrmentalTax({
+      schema: IRPEF_REGIONAL_ADDITIONS[region],
+      amount: irpefTaxableSalary,
+    }),
+  };
+};
+
+const getTaxesIrpefMunicipality = ({ vat, irpefTaxableSalary }) => {
+  if (vat.type !== VAT_TYPE_TYPES.SEMPLIFICATO) {
+    return {
+      amount: 0,
+      percentage: 0,
+    };
+  }
+
+  const municipality = "sample";
+
+  return {
+    percentage: IRPEF_MUNICIPALITY_ADDITION[municipality],
+    amount: calcIncrmentalTax({
+      schema: IRPEF_MUNICIPALITY_ADDITION[municipality],
+      amount: irpefTaxableSalary,
+    }),
+  };
 };
 
 const getPensionPercentage = ({ PENSION }) => {
@@ -68,13 +112,13 @@ const getPensionPercentage = ({ PENSION }) => {
 
 const getIrpefTaxableSalary = ({ vat, atecoData, SALARY, pension }) => {
   return vat.type === VAT_TYPE_TYPES.FORFETTARIO
-    ? (SALARY / 100) * atecoData.coeff - pension.amount
+    ? (SALARY / 100) * atecoData?.coeff - pension.amount
     : SALARY - pension.amount;
 };
 
 const getPensionTaxableSalary = ({ vat, atecoData, SALARY }) => {
   return vat.type === VAT_TYPE_TYPES.FORFETTARIO
-    ? (SALARY / 100) * atecoData.coeff
+    ? (SALARY / 100) * atecoData?.coeff
     : SALARY;
 };
 
@@ -94,6 +138,8 @@ export const getResult = (
     type: vatType,
     coeff: vatCoeff,
     hasFivePercent,
+    ateco: atecoData,
+    year: VAT_YEAR,
   };
 
   const pensionPercentage = getPensionPercentage({ PENSION });
@@ -117,45 +163,30 @@ export const getResult = (
   });
 
   const irpef = getTaxesIrpef({ vat, irpefTaxableSalary });
+  const irpefRegional = getTaxesIrpefRegional({ vat, irpefTaxableSalary });
+  const irpefMunicipality = getTaxesIrpefMunicipality({
+    vat,
+    irpefTaxableSalary,
+  });
   const taxes = {
     irpef,
+    irpefRegional,
+    irpefMunicipality,
+    amount: irpef.amount + irpefRegional.amount + irpefMunicipality.amount,
+  };
+
+  const yearlyNet = SALARY - pension.amount - taxes.amount;
+
+  const net = {
+    monthly: yearlyNet / 12,
+    yearly: yearlyNet,
   };
 
   return {
+    gross: SALARY,
+    net,
     vat,
     pension,
     taxes,
   };
-
-  /*
-  {
-    net,
-    vat: {
-      type,
-      coeff,
-      fivePercent
-    }
-    taxes: {
-      irpef: {
-        amount,
-        percentage
-      }
-      regional: {
-        amount,
-        percentage
-      },
-      comunal: {
-        amount,
-        percentage
-      },
-    },
-    pension: {
-      amount,
-      percentage,
-      type
-    },
-
-
-  }
-  */
 };
