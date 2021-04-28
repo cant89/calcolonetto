@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import { Row, Col, Collapse } from "antd";
+import { Row, Col } from "antd";
 import styled from "styled-components";
-import { CashOutline } from "react-ionicons";
 
 import { STEPS } from "../../constants";
 import { getResult } from "../../helpers/calculator";

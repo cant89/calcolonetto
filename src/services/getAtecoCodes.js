@@ -11,13 +11,8 @@ Reference for list of coeff by ateco:
 https://www.agenziaentrate.gov.it/portale/documents/20143/241208/allegato%2B4.pdf/d69be7fc-b18a-3c73-bd2e-b0f3c1970218 
 */
 const getCoeff = (atecoCode) => {
-  const [
-    divisione,
-    gruppoAndClasse,
-    categoriaAndSottocategoria,
-  ] = atecoCode.split(".");
+  const [divisione, gruppoAndClasse] = atecoCode.split(".");
   const [gruppo, classe] = gruppoAndClasse.split("");
-  const [categoria, sottocategoria] = categoriaAndSottocategoria.split("");
 
   // Industrie alimentari e delle bevande
   if (["10", "11"].includes(divisione)) {

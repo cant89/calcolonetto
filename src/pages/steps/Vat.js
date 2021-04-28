@@ -1,5 +1,4 @@
 import React from "react";
-import { Typography } from "antd";
 
 import Title from "../../components/typo/Title";
 import Radio from "../../components/form/Radio";

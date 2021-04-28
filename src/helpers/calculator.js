@@ -2,7 +2,6 @@ import {
   VAT_TYPE_TYPES,
   VAT_TYPES,
   IRPEF_SEMPLIFICATO,
-  PENSION_TYPE_TYPES,
   IRPEF_REGIONAL_ADDITIONS,
   IRPEF_MUNICIPALITY_ADDITION,
 } from "../constants";
@@ -102,14 +101,6 @@ const getTaxesIrpefMunicipality = ({ vat, irpefTaxableSalary }) => {
   };
 };
 
-const getPensionPercentage = ({ PENSION }) => {
-  if (PENSION === PENSION_TYPE_TYPES.inps) {
-    return 25.72;
-  }
-
-  return 10;
-};
-
 const getIrpefTaxableSalary = ({ vat, atecoData, SALARY, pension }) => {
   return vat.type === VAT_TYPE_TYPES.FORFETTARIO
     ? (SALARY / 100) * atecoData?.coeff - pension.amount
@@ -142,7 +133,6 @@ export const getResult = (
     year: VAT_YEAR,
   };
 
-  // const pensionPercentage = getPensionPercentage({ PENSION });
   const pensionAmount = getPensionAmount({
     SALARY,
     vat,

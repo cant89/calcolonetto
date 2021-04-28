@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Typography, AutoComplete, Input, Layout, Alert } from "antd";
+import React, { useState } from "react";
+import { Typography, AutoComplete, Input } from "antd";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import { useQuery } from "react-query";
 import styled from "styled-components";
@@ -13,13 +13,7 @@ import getAtecoCodes from "../../services/getAtecoCodes";
 const { Paragraph, Text } = Typography;
 
 function QuestionAteco({ t, className }) {
-  const {
-    handleChange,
-    handleSubmit,
-    prevStep,
-    error,
-    selection,
-  } = useStepManager({
+  const { handleChange, handleSubmit, prevStep, selection } = useStepManager({
     stepKey: STEPS.ATECO,
     errorMessage: t("Seleziona una opzione"),
   });
