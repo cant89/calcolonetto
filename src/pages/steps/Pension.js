@@ -4,7 +4,7 @@ import Radio from "../../components/form/Radio";
 import Title from "../../components/typo/Title";
 import ActionsBar from "../../components/ActionsBar";
 import useStepManager from "../../hooks/useStepManager";
-import { STEPS } from "../../constants";
+import { STEPS, PENSIONS } from "../../constants";
 import styled from "styled-components";
 
 function QuestionPension({ t }) {
@@ -52,6 +52,8 @@ function QuestionPension({ t }) {
     });
   };
 
+  console.log(selection);
+
   return (
     <section>
       <Title>{t("Quale categoria più ti si addice?")}</Title>
@@ -72,37 +74,16 @@ function QuestionPension({ t }) {
       />
 
       <Radio.Group
-        onChange={({ target }) => handleChange(target.value)}
-        value={selection[STEPS.PENSION]}
+        onChange={({ target }) => {
+          handleChange(PENSIONS.find((el) => el.name === target.value));
+        }}
+        value={selection[STEPS.PENSION]?.name}
       >
-        <Radio hasError={Boolean(error)} value="inarcassa">
-          {t("Architetti e Ingegneri")}
-        </Radio>
-        <Radio hasError={Boolean(error)} value="epap">
-          {t("Attuari, Agronomi e Forestali, Chimici, Geologi")}
-        </Radio>
-        <Radio hasError={Boolean(error)} value="enpab">
-          {t("Biologi")}
-        </Radio>
-        <Radio hasError={Boolean(error)} value="enpacl">
-          {t("Consulenti del lavoro")}
-        </Radio>
-        <Radio hasError={Boolean(error)} value="inpgi">
-          {t("Giornalisti")}
-        </Radio>
-        <Radio hasError={Boolean(error)} value="enpaf">
-          {t("Farmacisti")}
-        </Radio>
-        <Radio hasError={Boolean(error)} value="cnpadc">
-          {t("Commercialisti")}
-        </Radio>
-        <Radio hasError={Boolean(error)} value="cnpr">
-          {t("Ragionieri e Periti commerciali")}
-        </Radio>
-
-        <Radio hasError={Boolean(error)} value="inps">
-          {t("Altro")}
-        </Radio>
+        {PENSIONS.map(({ name, label }) => (
+          <Radio hasError={Boolean(error)} value={name} key={name}>
+            {label}
+          </Radio>
+        ))}
       </Radio.Group>
       <ActionsBar onPrevClick={prevStep} onNextClick={handleSubmit} />
     </section>

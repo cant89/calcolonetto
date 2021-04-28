@@ -124,3 +124,19 @@ export const IRPEF_MUNICIPALITY_ADDITION = {
     },
   ],
 };
+
+export const PENSIONS = [
+  { name: "inarcassa", percentage: "10", label: "Architetti e Ingegneri" },
+  {
+    name: "epap",
+    percentage: "10",
+    label: "Attuari, Agronomi e Forestali, Chimici, Geologi",
+  },
+  { name: "enpab", percentage: "10", label: "Biologi" },
+  { name: "enpacl", percentage: "10", label: "Consulenti del lavoro" },
+  { name: "inpgi", percentage: "10", label: "Giornalisti" },
+  { name: "enpaf", percentage: "10", label: "Farmacisti" },
+  { name: "cnpadc", percentage: "10", label: "Commercialisti" },
+  { name: "cnpr", percentage: "10", label: "Ragionieri e Periti commerciali" },
+  { name: "inps", percentage: "25.72", label: "Altro" },
+];

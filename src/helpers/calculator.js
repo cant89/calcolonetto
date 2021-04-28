@@ -142,16 +142,16 @@ export const getResult = (
     year: VAT_YEAR,
   };
 
-  const pensionPercentage = getPensionPercentage({ PENSION });
+  // const pensionPercentage = getPensionPercentage({ PENSION });
   const pensionAmount = getPensionAmount({
     SALARY,
     vat,
-    pensionPercentage,
+    pensionPercentage: PENSION?.percentage,
     atecoData,
   });
   const pension = {
-    type: PENSION,
-    percentage: pensionPercentage,
+    type: PENSION?.name,
+    percentage: PENSION?.percentage,
     amount: pensionAmount,
   };
 

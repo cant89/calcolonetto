@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { Row, Col, Collapse } from "antd";
 import styled from "styled-components";
@@ -21,15 +21,16 @@ const Results = () => {
     stepKey: STEPS.RESULTS,
   });
 
-  const { isLoading } = useQuery("ateco", getAtecoCodes, {
-    onSuccess: (data) => {
-      if (selection[STEPS.ATECO]) {
-        setSelectedAtecoCode(
-          data.find((el) => el.atecoCode === selection[STEPS.ATECO])
-        );
-      }
-    },
-  });
+  const { isLoading, data: allAtecoCodes = [] } = useQuery(
+    "ateco",
+    getAtecoCodes
+  );
+
+  useEffect(() => {
+    setSelectedAtecoCode(
+      allAtecoCodes.find((el) => el.atecoCode === selection[STEPS.ATECO]?.code)
+    );
+  }, [selection[STEPS.ATECO], allAtecoCodes]);
 
   const handleOnConfiguratorChange = (key, value) => {
     updateHistoryData(key, value);
@@ -39,10 +40,13 @@ const Results = () => {
     return "Loading...";
   }
 
-  const result = getResult(selection, { atecoData: selectedAtecoCode });
+  const result = getResult(selection, {
+    atecoData: selectedAtecoCode || selection[STEPS.ATECO],
+  });
+
   const { gross, net, vat, pension, taxes } = result;
 
-  console.log(selection, result);
+  console.log(result, selection);
 
   return (
     <section>
@@ -51,7 +55,7 @@ const Results = () => {
       >
         Fatto!
       </Title>
-      <Row gutter={{ md: 64, xs: 0 }}>
+      <Row gutter={{ md: 64, xs: 0 }} align="top">
         <Col md={{ span: 14 }} xs={{ span: 24 }}>
           <Content>
             <TiledTitle

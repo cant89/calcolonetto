@@ -32,7 +32,7 @@ function QuestionAteco({ t, className }) {
     onSuccess: (data) => {
       if (selection[STEPS.ATECO]) {
         setSelectedCode(
-          data.find((el) => el.atecoCode === selection[STEPS.ATECO])
+          data.find((el) => el.atecoCode === selection[STEPS.ATECO]?.code)
         );
       }
     },
@@ -55,12 +55,14 @@ function QuestionAteco({ t, className }) {
         };
       });
 
+    console.log(res);
+
     setOptions(res);
   };
 
   const onSelect = (data, { item }) => {
     setSelectedCode(item);
-    handleChange(item.atecoCode);
+    handleChange({ code: item.atecoCode, coeff: item.coeff });
   };
 
   const onChange = (data) => {

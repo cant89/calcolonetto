@@ -47,7 +47,6 @@ const useAppHistory = () => {
 
   const updateHistoryData = (key, value) => {
     const isKeyInData = data[key] !== undefined;
-    console.log(isKeyInData, data, key, value);
 
     const unchangedHistory = `?step=${step}&stepsHistory=${JSON.stringify(
       stepsHistory
@@ -88,8 +87,9 @@ const useStepManager = ({ stepKey, errorMessage, isValid = () => true }) => {
   const [selection, setSelection] = useState({ ...resData, ...data });
   const [error, setError] = useState();
   const timeout = useRef();
-  const memoizedAggregatedData = useMemo(() =>
-    JSON.stringify({ ...resData, ...data })
+  const memoizedAggregatedData = useMemo(
+    () => JSON.stringify({ ...resData, ...data }),
+    [resData, data]
   );
 
   useEffect(() => {
@@ -140,7 +140,7 @@ const useStepManager = ({ stepKey, errorMessage, isValid = () => true }) => {
 
   useEffect(() => {
     if (JSON.stringify(selection) !== memoizedAggregatedData) {
-      setSelection(data);
+      setSelection({ ...data, ...resData });
     }
   }, [memoizedAggregatedData]);
 
