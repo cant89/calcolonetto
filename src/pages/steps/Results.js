@@ -13,6 +13,7 @@ import Title from "../../components/typo/Title";
 import ActionsBar from "../../components/ActionsBar";
 import TiledTitle from "../../components/typo/TiledTitle";
 import ConfiguratorForm from "../../modules/configurator/ConfiguratorForm";
+import Line from "../../modules/results/Line";
 
 const Results = () => {
   const [selectedAtecoCode, setSelectedAtecoCode] = useState();
@@ -132,6 +133,8 @@ const Results = () => {
 
   const { gross, net, vat, pension, taxes } = result;
 
+  const isDataNotComplete = !vat?.type || !gross || !pension?.type;
+
   console.log(result, selection);
 
   return (
@@ -152,19 +155,16 @@ const Results = () => {
               Salario netto
             </TiledTitle>
 
-            <Line>
-              <div className="key">
-                <span>Annuo</span>
-              </div>
-              <span className="value"> € {formatNum(net.yearly)}</span>
-              <span className="info"></span>
+            <Line isNotValid={isDataNotComplete}>
+              <Line.Key>Annuo</Line.Key>
+              <Line.Value>€ {formatNum(net.yearly)}</Line.Value>
+              <Line.Info></Line.Info>
             </Line>
-            <Line>
-              <div className="key">
-                <span>Mensile (12 mensilità)</span>
-              </div>
-              <span className="value"> € {formatNum(net.monthly)}</span>
-              <span className="info"></span>
+
+            <Line isNotValid={isDataNotComplete}>
+              <Line.Key>Mensile (12 mensilità)</Line.Key>
+              <Line.Value> € {formatNum(net.monthly)}</Line.Value>
+              <Line.Info></Line.Info>
             </Line>
           </Content>
 
@@ -177,19 +177,16 @@ const Results = () => {
               Salario lordo
             </TiledTitle>
 
-            <Line>
-              <div className="key">
-                <span>Annuo</span>
-              </div>
-              <span className="value"> € {formatNum(gross)}</span>
-              <span className="info"></span>
+            <Line isNotValid={isDataNotComplete}>
+              <Line.Key>Annuo</Line.Key>
+              <Line.Value> € {formatNum(gross)}</Line.Value>
+              <Line.Info></Line.Info>
             </Line>
-            <Line>
-              <div className="key">
-                <span>Mensile (12 mensilità)</span>
-              </div>
-              <span className="value"> € {formatNum(gross / 12)}</span>
-              <span className="info"></span>
+
+            <Line isNotValid={isDataNotComplete}>
+              <Line.Key>Mensile (12 mensilità)</Line.Key>
+              <Line.Value> € {formatNum(gross / 12)}</Line.Value>
+              <Line.Info></Line.Info>
             </Line>
           </Content>
 
@@ -202,68 +199,64 @@ const Results = () => {
               Tasse
             </TiledTitle>
 
-            <Line>
-              <div className="key">
-                <span>Totali</span>
-              </div>
-              <span className="value">
+            <Line isNotValid={isDataNotComplete}>
+              <Line.Key>Totali</Line.Key>
+              <Line.Value>
+                {" "}
                 € {formatNum(taxes.amount + pension.amount)}
-              </span>
-              <span className="info"></span>
+              </Line.Value>
+              <Line.Info></Line.Info>
             </Line>
             <Content>
               <Line>
                 <strong>Dettagli</strong>
               </Line>
-              <Line>
-                <div className="key">
-                  <span>
-                    IRPEF{" "}
-                    {vat.type !== VAT_TYPE_TYPES.SEMPLIFICATO &&
-                      "(Aliquota unica)"}
-                  </span>
-                </div>
-                <span className="value">€ {formatNum(taxes.irpef.amount)}</span>
-                <span className="info">
+
+              <Line isNotValid={isDataNotComplete}>
+                <Line.Key>
+                  IRPEF{" "}
+                  {vat.type !== VAT_TYPE_TYPES.SEMPLIFICATO &&
+                    "(Aliquota unica)"}
+                </Line.Key>
+                <Line.Value> € {formatNum(taxes.irpef.amount)}</Line.Value>
+                <Line.Info>
                   <InfoCircleOutlined onClick={onIrpefInfoClick} />
-                </span>
+                </Line.Info>
               </Line>
+
               {taxes.irpefRegional.percentage ? (
-                <Line>
-                  <div className="key">
-                    <span>Addizionale regionale IRPEF</span>
-                  </div>
-                  <span className="value">
+                <Line isNotValid={isDataNotComplete}>
+                  <Line.Key>Addizionale regionale IRPEF</Line.Key>
+                  <Line.Value>
+                    {" "}
                     € {formatNum(taxes.irpefRegional.amount)}
-                  </span>
-                  <span className="info">
+                  </Line.Value>
+                  <Line.Info>
                     <InfoCircleOutlined onClick={onIrpefRegionalInfoClick} />
-                  </span>
+                  </Line.Info>
                 </Line>
               ) : null}
               {taxes.irpefMunicipality.percentage ? (
-                <Line>
-                  <div className="key">
-                    <span>Addizionale comunale IRPEF</span>
-                  </div>
-                  <span className="value">
+                <Line isNotValid={isDataNotComplete}>
+                  <Line.Key>Addizionale comunale IRPEF</Line.Key>
+                  <Line.Value>
+                    {" "}
                     € {formatNum(taxes.irpefMunicipality.amount)}
-                  </span>
-                  <span className="info">
+                  </Line.Value>
+                  <Line.Info>
                     <InfoCircleOutlined
                       onClick={onIrpefMunicipalityInfoClick}
                     />
-                  </span>
+                  </Line.Info>
                 </Line>
               ) : null}
-              <Line>
-                <div className="key">
-                  <span>Previdenza sociale (Pensione)</span>
-                </div>
-                <span className="value">€ {formatNum(pension.amount)}</span>
-                <span className="info">
+
+              <Line isNotValid={isDataNotComplete}>
+                <Line.Key>Previdenza sociale (Pensione)</Line.Key>
+                <Line.Value>€ {formatNum(pension.amount)}</Line.Value>
+                <Line.Info>
                   <InfoCircleOutlined onClick={onPensionInfoClick} />
-                </span>
+                </Line.Info>
               </Line>
             </Content>
           </Content>
@@ -291,59 +284,59 @@ Results.Content = styled.section`
   }
 `;
 
-Results.Line = styled.div`
-  display: flex;
-  margin-bottom: 8px;
-  margin-left: 50px;
-  vertical-align: middle;
+// Results.Line = styled.div`
+//   display: flex;
+//   margin-bottom: 8px;
+//   margin-left: 50px;
+//   vertical-align: middle;
 
-  @media screen and (max-width: 1000px) {
-    margin-left: 0;
-  }
+//   @media screen and (max-width: 1000px) {
+//     margin-left: 0;
+//   }
 
-  .key {
-    display: inline-block;
-    position: relative;
-    flex-grow: 2;
+//   .key {
+//     display: inline-block;
+//     position: relative;
+//     flex-grow: 2;
 
-    span {
-      background: white;
-      padding-right: 12px;
-    }
+//     span {
+//       background: white;
+//       padding-right: 12px;
+//     }
 
-    &:before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 50%;
-      width: 100%;
-      height: 1px;
-      background: black;
-      z-index: -1;
-    }
-  }
+//     &:before {
+//       content: "";
+//       position: absolute;
+//       left: 0;
+//       top: 50%;
+//       width: 100%;
+//       height: 1px;
+//       background: black;
+//       z-index: -1;
+//     }
+//   }
 
-  .value {
-    font-size: 120%;
-    padding-left: 12px;
-    padding: 4px 8px;
-    border: 3px solid ${(props) => props.theme.colors.primary};
-    white-space: nowrap;
-  }
+//   .value {
+//     font-size: 120%;
+//     padding-left: 12px;
+//     padding: 4px 8px;
+//     border: 3px solid ${(props) => props.theme.colors.primary};
+//     white-space: nowrap;
+//   }
 
-  .info {
-    width: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+//   .info {
+//     width: 32px;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
 
-    > .anticon {
-      font-size: 20px;
-      color: ${(props) => props.theme.colors.grey};
-      cursor: pointer;
-    }
-  }
-`;
+//     > .anticon {
+//       font-size: 20px;
+//       color: ${(props) => props.theme.colors.grey};
+//       cursor: pointer;
+//     }
+//   }
+// `;
 
 Results.RightCol = styled(Col)`
   border: 1px solid ${(props) => props.theme.colors.border};
@@ -352,6 +345,6 @@ Results.RightCol = styled(Col)`
   min-width: 350px;
 `;
 
-const { Content, Line, RightCol } = Results;
+const { Content, RightCol } = Results;
 
 export default Results;

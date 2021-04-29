@@ -2,8 +2,8 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import { Row, Col, Typography } from "antd";
-import { ArrowRightOutlined } from "@ant-design/icons";
+import { Row, Col, Typography, Divider } from "antd";
+import { ArrowRightOutlined, ControlOutlined } from "@ant-design/icons";
 
 import { ROUTES } from "../constants";
 import Button from "../components/Button";
@@ -16,7 +16,8 @@ function Home() {
       <Home.Intro>
         <Col span={16}>
           <Typography.Title level={1}>
-            Calcola il netto <br /> dal lordo.
+            La Partita IVA,
+            <br /> resa semplice.
           </Typography.Title>
           <Typography.Title level={3}>
             <div
@@ -39,6 +40,23 @@ function Home() {
           >
             {t("Calcola ora")}
             <ArrowRightOutlined />
+          </Button>
+          <Divider
+            style={{
+              width: "200px",
+              minWidth: "auto",
+              maxWidth: "auto",
+              fontSize: "14px",
+            }}
+          >
+            oppure
+          </Divider>
+          <Button
+            size="normal"
+            onClick={() => history.push(`${ROUTES.GUIDED_STEPS}?step=RESULTS`)}
+          >
+            {t("Inserisci dati manualmente")}
+            <ControlOutlined />
           </Button>
         </Col>
 
