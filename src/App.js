@@ -21,6 +21,7 @@ const theme = {
     primary: "#00ffde",
     primaryText: "#000",
     primaryTextLight: "#717171",
+    grey: "#717171",
     border: "#d9d9d9",
     error: "#ff0505",
   },

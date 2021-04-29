@@ -52,8 +52,6 @@ function QuestionPension({ t }) {
     });
   };
 
-  console.log(selection);
-
   return (
     <section>
       <Title>{t("Quale categoria più ti si addice?")}</Title>

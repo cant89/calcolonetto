@@ -49,8 +49,6 @@ function QuestionAteco({ t, className }) {
         };
       });
 
-    console.log(res);
-
     setOptions(res);
   };
 

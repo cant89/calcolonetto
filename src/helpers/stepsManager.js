@@ -1,4 +1,4 @@
-import { STEPS, VAT_TYPES } from "../constants";
+import { STEPS, VAT_TYPES, VAT_TYPE_TYPES } from "../constants";
 
 const isVat = (data) => {
   if (data.VAT === VAT_TYPES.YES) {
@@ -9,10 +9,10 @@ const isVat = (data) => {
   }
 };
 
-const isVatYear = (data) => {
+const isVatYear = ({ VAT_YEAR }) => {
   // regime dei minimi - introduced in 2008
   // regime forfettario - introduced in 2015
-  if (Number(data.VAT_YEAR) < 2008) {
+  if (Number(VAT_YEAR) < 2008) {
     return STEPS.SALARY;
   }
 
@@ -23,8 +23,14 @@ const isVatType = () => {
   return STEPS.SALARY;
 };
 
-const isSalary = (data) => {
-  return STEPS.ATECO;
+const isSalary = ({ VAT_TYPE, SALARY }) => {
+  if (
+    VAT_TYPE === VAT_TYPE_TYPES.FORFETTARIO ||
+    (!VAT_TYPE && SALARY < 65000)
+  ) {
+    return STEPS.ATECO;
+  }
+  return STEPS.PENSION;
 };
 
 const isAteco = (data) => {

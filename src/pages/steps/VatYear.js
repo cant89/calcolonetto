@@ -16,7 +16,8 @@ function QuestionVatYear({ t }) {
   } = useStepManager({
     stepKey: STEPS.VAT_YEAR,
     errorMessage: t("Inserisci un anno valido"),
-    isValid: (value) => value.length === 4 && Number(value) == value,
+    isValid: (value) =>
+      value > 0 && value < new Date().getFullYear() && Number(value) == value,
   });
 
   return (

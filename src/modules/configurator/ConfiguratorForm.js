@@ -36,16 +36,6 @@ const ConfiguratorForm = ({ data = {}, onChange }) => {
         />
       </FormField>
 
-      <FormField visible={Boolean(vat?.year)}>
-        <label>Anno apertura P.IVA</label>
-        <InputText
-          value={vat?.year}
-          onChange={({ target }) => handleOnChange("VAT_YEAR")(target.value)}
-          maxLength={4}
-          width="100%"
-        />
-      </FormField>
-
       <FormField>
         <label>Tipo P.IVA</label>
         <Select
@@ -65,7 +55,7 @@ const ConfiguratorForm = ({ data = {}, onChange }) => {
       <FormField visible={vat?.type === VAT_TYPE_TYPES.FORFETTARIO}>
         <label>Coefficiente di redditività</label>
         <Row gutter="8" align="middle" wrap={false}>
-          <Col span={8}>
+          <Col flex="auto">
             <InputNumber
               value={vat?.ateco?.coeff}
               onChange={(coeff) => handleOnChange("ATECO")({ coeff })}
@@ -107,7 +97,7 @@ const ConfiguratorForm = ({ data = {}, onChange }) => {
               ))}
             </Select>
           </Col>
-          <Col flex="90px">
+          <Col>
             <Badge>
               <span className="second half">{pension?.percentage}%</span>
             </Badge>
@@ -130,8 +120,10 @@ ConfiguratorForm.FormField = styled.div`
 `;
 
 ConfiguratorForm.Badge = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+
   .half {
-    display: inline-block;
     padding: 8px;
     height: 40px;
     font-weight: 700;
@@ -143,6 +135,7 @@ ConfiguratorForm.Badge = styled.div`
     color: ${({ theme }) => theme.colors.primaryTextLight};
     border-radius: 5px 0 0 5px;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .second {

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import { Row, Col } from "antd";
+import { Row, Col, Modal, Steps } from "antd";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
-import { STEPS } from "../../constants";
+import { PENSIONS, STEPS, VAT_TYPE_TYPES } from "../../constants";
 import { getResult } from "../../helpers/calculator";
 import { formatNum } from "../../helpers/common";
 import useStepManager from "../../hooks/useStepManager";
@@ -12,6 +13,8 @@ import Title from "../../components/typo/Title";
 import ActionsBar from "../../components/ActionsBar";
 import TiledTitle from "../../components/typo/TiledTitle";
 import ConfiguratorForm from "../../modules/configurator/ConfiguratorForm";
+
+const { Step } = Steps;
 
 const Results = () => {
   const [selectedAtecoCode, setSelectedAtecoCode] = useState();
@@ -35,6 +38,91 @@ const Results = () => {
     updateHistoryData(key, value);
   };
 
+  const onIrpefMunicipalityInfoClick = () => {
+    Modal.info({
+      title: "Addizionale comunale IRPEF",
+      content: (
+        <>
+          <p>
+            Considerato l'impatto ridotto di questa imposta e la difficoltà nel
+            reperire i valori per tutti i comuni di Italia,{" "}
+            <strong>
+              approssimiamo questa imposta a un valore che varia tra lo 0.55% e
+              lo 0.8% in base al reddito.
+            </strong>
+          </p>
+          <p>
+            Il valore reale varia leggermente in base al comune presso il quale
+            ha sede fiscale la tua P.IVA. ma non supera mai lo 0.8% (0.9% per
+            Roma capitale).
+          </p>
+        </>
+      ),
+    });
+  };
+
+  const onIrpefRegionalInfoClick = () => {
+    Modal.info({
+      title: "Addizionale regionale IRPEF",
+      content: (
+        <>
+          <p>
+            L'addizionale regionale IRPEF è una imposta regionale, da pagare
+            alla regione presso la quale ha sede la tua attività. L'ammontare di
+            questa imposta varia da regione a regione.
+          </p>
+        </>
+      ),
+    });
+  };
+
+  const onIrpefInfoClick = () => {
+    Modal.info({
+      title: "Cos'è l'IRPEF?",
+      content: (
+        <>
+          <p>
+            L'IRPEF è l'imposta che, ogni anno, ogni possesore di Partita IVA
+            deve pagare allo stato Italiano.
+          </p>
+          <p>
+            L'ammontare di questa imposta può essere molto differente a seconda
+            del tipo P.IVA che utilizzi.
+          </p>
+        </>
+      ),
+    });
+  };
+
+  const onPensionInfoClick = () => {
+    Modal.info({
+      title: "La pensione",
+      content: (
+        <>
+          <p>
+            In Italia è obbligatorio versare una quota da destinare alla propria
+            pensione futura.
+          </p>
+          <p>
+            L'ammontare di questa quota è determinato dal tipo di Cassa
+            previdenziale che utilizzerai, la quale non è una libera scelta ma è
+            determinata dal tipo di attività che svolgi.
+          </p>
+          <p>
+            Di solito le attività professionali per le quali esiste un albo
+            (geometri, avvocati, ecc) devono iscriversi alla Cassa previdenziale
+            dedicata, la quale applicherà una sua aliquota percentuale fissa.
+          </p>
+          <p>
+            Tutte le altre attività si appoggiano alla Gestione Separata INPS,
+            la quale applica una aliquota fissa del{" "}
+            {PENSIONS.find(({ name }) => name === "inps")?.percentage} %
+          </p>
+        </>
+      ),
+    });
+  };
+
   if (isLoading) {
     return "Loading...";
   }
@@ -55,35 +143,12 @@ const Results = () => {
         Fatto!
       </Title>
       <Row gutter={{ md: 64, xs: 0 }} align="top">
-        <Col md={{ span: 14 }} xs={{ span: 24 }}>
-          <Content>
-            <TiledTitle
-              subtitle="Ciò che fatturi"
-              tileRotation={10}
-              type="square"
-            >
-              Salario lordo
-            </TiledTitle>
-
-            <Line>
-              <div className="key">
-                <span>Annuo</span>
-              </div>
-              <span className="value"> € {formatNum(gross)}</span>
-            </Line>
-            <Line>
-              <div className="key">
-                <span>Mensile (12 mensilità)</span>
-              </div>
-              <span className="value"> € {formatNum(gross / 12)}</span>
-            </Line>
-          </Content>
-
+        <Col flex="auto" md="" xs={{ span: 24 }}>
           <Content>
             <TiledTitle
               subtitle="Ciò che ti rimane in tasca"
-              tileRotation={-5}
-              type="circle"
+              tileRotation={10}
+              type="square"
             >
               Salario netto
             </TiledTitle>
@@ -93,12 +158,39 @@ const Results = () => {
                 <span>Annuo</span>
               </div>
               <span className="value"> € {formatNum(net.yearly)}</span>
+              <span className="info"></span>
             </Line>
             <Line>
               <div className="key">
                 <span>Mensile (12 mensilità)</span>
               </div>
               <span className="value"> € {formatNum(net.monthly)}</span>
+              <span className="info"></span>
+            </Line>
+          </Content>
+
+          <Content>
+            <TiledTitle
+              subtitle="Ciò che fatturi"
+              tileRotation={-5}
+              type="circle"
+            >
+              Salario lordo
+            </TiledTitle>
+
+            <Line>
+              <div className="key">
+                <span>Annuo</span>
+              </div>
+              <span className="value"> € {formatNum(gross)}</span>
+              <span className="info"></span>
+            </Line>
+            <Line>
+              <div className="key">
+                <span>Mensile (12 mensilità)</span>
+              </div>
+              <span className="value"> € {formatNum(gross / 12)}</span>
+              <span className="info"></span>
             </Line>
           </Content>
 
@@ -118,6 +210,7 @@ const Results = () => {
               <span className="value">
                 € {formatNum(taxes.amount + pension.amount)}
               </span>
+              <span className="info"></span>
             </Line>
             <Content>
               <Line>
@@ -125,9 +218,16 @@ const Results = () => {
               </Line>
               <Line>
                 <div className="key">
-                  <span>IRPEF</span>
+                  <span>
+                    IRPEF{" "}
+                    {vat.type !== VAT_TYPE_TYPES.SEMPLIFICATO &&
+                      "(Aliquota unica)"}
+                  </span>
                 </div>
                 <span className="value">€ {formatNum(taxes.irpef.amount)}</span>
+                <span className="info">
+                  <InfoCircleOutlined onClick={onIrpefInfoClick} />
+                </span>
               </Line>
               {taxes.irpefRegional.percentage ? (
                 <Line>
@@ -136,6 +236,9 @@ const Results = () => {
                   </div>
                   <span className="value">
                     € {formatNum(taxes.irpefRegional.amount)}
+                  </span>
+                  <span className="info">
+                    <InfoCircleOutlined onClick={onIrpefRegionalInfoClick} />
                   </span>
                 </Line>
               ) : null}
@@ -147,6 +250,11 @@ const Results = () => {
                   <span className="value">
                     € {formatNum(taxes.irpefMunicipality.amount)}
                   </span>
+                  <span className="info">
+                    <InfoCircleOutlined
+                      onClick={onIrpefMunicipalityInfoClick}
+                    />
+                  </span>
                 </Line>
               ) : null}
               <Line>
@@ -154,6 +262,9 @@ const Results = () => {
                   <span>Previdenza sociale (Pensione)</span>
                 </div>
                 <span className="value">€ {formatNum(pension.amount)}</span>
+                <span className="info">
+                  <InfoCircleOutlined onClick={onPensionInfoClick} />
+                </span>
               </Line>
             </Content>
           </Content>
@@ -175,7 +286,6 @@ const Results = () => {
 
 Results.Content = styled.section`
   margin: 0 0 60px 50px;
-  max-width: 400px;
 
   @media screen and (max-width: 1000px) {
     margin-left: 0;
@@ -221,12 +331,26 @@ Results.Line = styled.div`
     border: 3px solid ${(props) => props.theme.colors.primary};
     white-space: nowrap;
   }
+
+  .info {
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    > .anticon {
+      font-size: 20px;
+      color: ${(props) => props.theme.colors.grey};
+      cursor: pointer;
+    }
+  }
 `;
 
 Results.RightCol = styled(Col)`
   border: 1px solid ${(props) => props.theme.colors.border};
   border-radius: 8px;
   padding: 32px;
+  min-width: 350px;
 `;
 
 const { Content, Line, RightCol } = Results;
