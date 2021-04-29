@@ -96,10 +96,10 @@ const useStepManager = ({ stepKey, errorMessage, isValid = () => true }) => {
     const { [stepKey]: stepVal } = dataRef?.current || {};
 
     stepVal !== undefined &&
-      setSelection({
+      setSelection((selection) => ({
         ...selection,
         [stepKey]: stepVal,
-      });
+      }));
   }, [dataRef, stepKey, setSelection]);
 
   const checkError = () => {
@@ -142,6 +142,7 @@ const useStepManager = ({ stepKey, errorMessage, isValid = () => true }) => {
     if (JSON.stringify(selection) !== memoizedAggregatedData) {
       setSelection({ ...data, ...resData });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [memoizedAggregatedData]);
 
   return {

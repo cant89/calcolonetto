@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "react-query";
-import { Row, Col, Modal, Steps } from "antd";
+import { Row, Col, Modal } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
@@ -13,8 +13,6 @@ import Title from "../../components/typo/Title";
 import ActionsBar from "../../components/ActionsBar";
 import TiledTitle from "../../components/typo/TiledTitle";
 import ConfiguratorForm from "../../modules/configurator/ConfiguratorForm";
-
-const { Step } = Steps;
 
 const Results = () => {
   const [selectedAtecoCode, setSelectedAtecoCode] = useState();
@@ -32,6 +30,7 @@ const Results = () => {
     setSelectedAtecoCode(
       allAtecoCodes.find((el) => el.atecoCode === selection[STEPS.ATECO]?.code)
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selection[STEPS.ATECO], allAtecoCodes]);
 
   const handleOnConfiguratorChange = (key, value) => {

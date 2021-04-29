@@ -68,7 +68,11 @@ function QuestionAteco({ t, className }) {
         Cerca il tuo mestiere per parola chiave in modo da ottenere il codice
         ATECO che più rispecchia il tipo di attività che svolgi. Per una analisi
         più approfondita visita{" "}
-        <a href="https://www.codiceateco.it/" target="_blank">
+        <a
+          href="https://www.codiceateco.it/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           il sito ufficiale
         </a>{" "}
         o contatta un commercialista.

@@ -3,7 +3,6 @@ import { Row, Col } from "antd";
 import styled from "styled-components";
 
 import InputNumber from "../../components/form/InputNumber";
-import InputText from "../../components/form/InputText";
 import Select from "../../components/form/Select";
 import { VAT_TYPE_TYPES, PENSIONS } from "../../constants";
 
