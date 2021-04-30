@@ -6,7 +6,7 @@ import {
   IRPEF_MUNICIPALITY_ADDITION,
 } from "../constants";
 
-const calcIncrmentalTax = ({ schema, amount }) =>
+const calcIncrmentalTax = ({ schema = [], amount }) =>
   schema.reduce((tot, { from, to, tax }) => {
     const increment =
       amount < from ? 0 : ((Math.min(to, amount) - from) / 100) * tax;
