@@ -13,27 +13,41 @@ const ConfiguratorForm = ({ data = {}, onChange }) => {
     onChange(key, value);
   };
 
-  const { gross, vat, pension, location } = data;
+  const { gross, vat, pension, location, monthsNum } = data;
 
   return (
     <section>
-      <FormField>
-        <label>Salario lordo annuo</label>
-        <InputNumber
-          value={gross}
-          onChange={handleOnChange("SALARY")}
-          step={1000}
-          width="100%"
-          parser={(value) =>
-            value.length ? value.replace(/€\s?|(,*)/g, "") : 0
-          }
-          formatter={(value) =>
-            `€ ${String(value)
-              .replace(/\D*/g, "")
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
-          }
-        />
-      </FormField>
+      <Row gutter="8" align="middle" wrap={false}>
+        <Col flex="auto">
+          <FormField>
+            <label>Salario lordo annuo</label>
+            <InputNumber
+              value={gross?.yearly}
+              onChange={handleOnChange("SALARY")}
+              step={1000}
+              width="100%"
+              parser={(value) =>
+                value.length ? value.replace(/€\s?|(,*)/g, "") : 0
+              }
+              formatter={(value) =>
+                `€ ${String(value)
+                  .replace(/\D*/g, "")
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
+              }
+            />
+          </FormField>
+        </Col>
+        <Col>
+          <FormField>
+            <label>Mensilità</label>
+            <InputNumber
+              value={monthsNum}
+              width={100}
+              onChange={handleOnChange("monthsNum")}
+            />
+          </FormField>
+        </Col>
+      </Row>
 
       <FormField>
         <label>Tipo P.IVA</label>

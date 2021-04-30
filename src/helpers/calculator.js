@@ -117,7 +117,7 @@ const getPensionAmount = ({ SALARY, vat, pensionPercentage, atecoData }) => {
 };
 
 export const getResult = (
-  { VAT, VAT_TYPE, VAT_YEAR, ATECO, PENSION, LOCATION, SALARY },
+  { VAT, VAT_TYPE, VAT_YEAR, ATECO, PENSION, LOCATION, SALARY, monthsNum = 12 },
   { atecoData }
 ) => {
   const vatType = VAT_TYPE || getVatType({ SALARY, VAT });
@@ -170,13 +170,19 @@ export const getResult = (
   const yearlyNet = SALARY - pension.amount - taxes.amount;
 
   const net = {
-    monthly: yearlyNet / 12,
+    monthly: yearlyNet / monthsNum,
     yearly: yearlyNet,
   };
 
+  const gross = {
+    monthly: SALARY / monthsNum,
+    yearly: SALARY,
+  };
+
   return {
-    gross: SALARY,
+    gross,
     location: LOCATION,
+    monthsNum,
     net,
     vat,
     pension,

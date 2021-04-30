@@ -12,6 +12,7 @@ import useQueryParams from "../../hooks/useQueryParams";
 
 import getAtecoCodes from "../../services/getAtecoCodes";
 import Title from "../../components/typo/Title";
+import Link from "../../components/Link";
 import ActionsBar from "../../components/ActionsBar";
 import TiledTitle from "../../components/typo/TiledTitle";
 import ConfiguratorForm from "../../modules/configurator/ConfiguratorForm";
@@ -134,9 +135,9 @@ const Results = () => {
     atecoData: selectedAtecoCode || selection[STEPS.ATECO],
   });
 
-  const { gross, net, vat, pension, taxes } = result;
+  const { gross, net, vat, pension, taxes, monthsNum } = result;
 
-  const isDataNotComplete = !vat?.type || !gross || !pension?.type;
+  const isDataNotComplete = !vat?.type || !gross?.yearly || !pension?.type;
 
   return (
     <section>
@@ -159,7 +160,7 @@ const Results = () => {
             </Line>
 
             <Line isNotValid={isDataNotComplete}>
-              <Line.Key>Mensile (12 mensilità)</Line.Key>
+              <Line.Key>Mensile - {monthsNum} mensilità</Line.Key>
               <Line.Value> € {formatNum(net.monthly)}</Line.Value>
               <Line.Info></Line.Info>
             </Line>
@@ -176,13 +177,13 @@ const Results = () => {
 
             <Line isNotValid={isDataNotComplete}>
               <Line.Key>Annuo</Line.Key>
-              <Line.Value> € {formatNum(gross)}</Line.Value>
+              <Line.Value> € {formatNum(gross.yearly)}</Line.Value>
               <Line.Info></Line.Info>
             </Line>
 
             <Line isNotValid={isDataNotComplete}>
-              <Line.Key>Mensile (12 mensilità)</Line.Key>
-              <Line.Value> € {formatNum(gross / 12)}</Line.Value>
+              <Line.Key>Mensile ({monthsNum} mensilità)</Line.Key>
+              <Line.Value> € {formatNum(gross?.monthly)}</Line.Value>
               <Line.Info></Line.Info>
             </Line>
           </Content>
@@ -260,7 +261,7 @@ const Results = () => {
         </Col>
 
         <RightCol md={{ span: 10 }} xs={{ span: 24 }}>
-          <Title>I tuoi dati</Title>
+          <Title>Configura</Title>
           <ConfiguratorForm
             data={result}
             onChange={handleOnConfiguratorChange}
