@@ -20,10 +20,10 @@ function Home() {
             <br /> resa semplice.
           </Typography.Title>
           <Typography.Title level={3}>
-            Stima al volo il salario netto,
+            Stima al volo il tuo effettivo guadagno,
             <br />
             le tasse da pagare e la pensione da versare <br />
-            in base al tuo salario annuo lordo.
+            in pochi semplici passi.
           </Typography.Title>
           <Typography.Title level={4} color="primary">
             {t("Facile. Veloce. Gratis.")}
