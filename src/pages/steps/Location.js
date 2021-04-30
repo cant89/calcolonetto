@@ -4,7 +4,7 @@ import Select from "../../components/form/Select";
 import Title from "../../components/typo/Title";
 import ActionsBar from "../../components/ActionsBar";
 import useStepManager from "../../hooks/useStepManager";
-import { REGIONS, STEPS } from "../../constants";
+import { REGIONS, STEPS, VAT_TYPES } from "../../constants";
 
 const { Option } = Select;
 
@@ -20,7 +20,7 @@ function QuestionLocation({ t }) {
     errorMessage: t("Scegli un luogo"),
   });
 
-  const hasVat = selection[STEPS.VAT] === "yes";
+  const hasVat = selection[STEPS.VAT] === VAT_TYPES.YES;
 
   return (
     <section>

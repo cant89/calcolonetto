@@ -7,7 +7,7 @@ import styled from "styled-components";
 import Title from "../../components/typo/Title";
 import ActionsBar from "../../components/ActionsBar";
 import useStepManager from "../../hooks/useStepManager";
-import { STEPS } from "../../constants";
+import { STEPS, VAT_TYPES } from "../../constants";
 import getAtecoCodes from "../../services/getAtecoCodes";
 
 const { Paragraph, Text } = Typography;
@@ -20,7 +20,7 @@ function QuestionAteco({ t, className }) {
 
   const [value, setValue] = useState("");
   const [options, setOptions] = useState([]);
-  const [selectedCode, setSelectedCode] = useState();
+  const [selectedCode, setSelectedCode] = useState(selection[STEPS.ATECO]);
 
   const { data } = useQuery("ateco", getAtecoCodes, {
     onSuccess: (data) => {
@@ -43,8 +43,8 @@ function QuestionAteco({ t, className }) {
       )
       .map((el) => {
         return {
-          label: el.sottocategoria?.titolo,
-          value: el.sottocategoria?.titolo,
+          label: `${el.atecoCode} - ${el.sottocategoria?.titolo}`,
+          value: `${el.atecoCode} - ${el.sottocategoria?.titolo}`,
           item: el,
         };
       });
@@ -61,21 +61,34 @@ function QuestionAteco({ t, className }) {
     setValue(data);
   };
 
+  const hasVat = selection[STEPS.VAT] === VAT_TYPES.YES;
+
   return (
     <section className={className}>
-      <Title>{t("Che mestiere fai?")}</Title>
+      <Title>
+        {hasVat ? "Qual'è il tuo codice ATECO?" : "Che mestiere fai?"}
+      </Title>
       <Paragraph>
-        Cerca il tuo mestiere per parola chiave in modo da ottenere il codice
-        ATECO che più rispecchia il tipo di attività che svolgi. Per una analisi
-        più approfondita visita{" "}
-        <a
-          href="https://www.codiceateco.it/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          il sito ufficiale
-        </a>{" "}
-        o contatta un commercialista.
+        {hasVat ? (
+          <>
+            Cerca il tuo mestiere per parola chiave in modo da ottenere il
+            codice ATECO che più rispecchia il tipo di attività che svolgi. Per
+            una analisi più approfondita visita{" "}
+            <a
+              href="https://www.codiceateco.it/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              il sito ufficiale
+            </a>{" "}
+            o contatta un commercialista.
+          </>
+        ) : (
+          <>
+            Il codice ATECO è il codice identificativo del tipo di attività che
+            svolgi.
+          </>
+        )}
       </Paragraph>
       <AutoComplete
         value={value}
@@ -89,7 +102,11 @@ function QuestionAteco({ t, className }) {
       >
         <Input.Search
           size="large"
-          placeholder='Cerca per parola chiave (Es. "studi legali")'
+          placeholder={
+            hasVat
+              ? "Cerca il tuo codice (Es: 74.10.21)"
+              : 'Cerca per parola chiave o codice (Es. "studi legali" o "74.10.21")'
+          }
         />
       </AutoComplete>
       {selectedCode && (
