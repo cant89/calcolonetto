@@ -38,6 +38,10 @@ const isAteco = (data) => {
 };
 
 const isPension = (data) => {
+  return STEPS.LOCATION;
+};
+
+const isLocation = (data) => {
   return STEPS.RESULTS;
 };
 
@@ -55,6 +59,8 @@ export const getNextStep = (currentStep, data) => {
       return isAteco(data);
     case STEPS.PENSION:
       return isPension(data);
+    case STEPS.LOCATION:
+      return isLocation(data);
     default:
       return STEPS.VAT;
   }

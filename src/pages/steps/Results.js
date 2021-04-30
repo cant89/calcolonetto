@@ -8,6 +8,8 @@ import { PENSIONS, STEPS, VAT_TYPE_TYPES } from "../../constants";
 import { getResult } from "../../helpers/calculator";
 import { formatNum } from "../../helpers/common";
 import useStepManager from "../../hooks/useStepManager";
+import useQueryParams from "../../hooks/useQueryParams";
+
 import getAtecoCodes from "../../services/getAtecoCodes";
 import Title from "../../components/typo/Title";
 import ActionsBar from "../../components/ActionsBar";
@@ -21,6 +23,7 @@ const Results = () => {
   const { selection, prevStep, updateHistoryData } = useStepManager({
     stepKey: STEPS.RESULTS,
   });
+  const { stepsHistory } = useQueryParams();
 
   const { isLoading, data: allAtecoCodes = [] } = useQuery(
     "ateco",
@@ -135,15 +138,9 @@ const Results = () => {
 
   const isDataNotComplete = !vat?.type || !gross || !pension?.type;
 
-  console.log(result, selection);
-
   return (
     <section>
-      <Title
-        style={{ textAlign: "center", fontSize: "80px", marginBottom: "60px" }}
-      >
-        Fatto!
-      </Title>
+      {stepsHistory?.length ? <MainTitle>Fatto!</MainTitle> : null}
       <Row gutter={{ md: 64, xs: 0 }} align="top">
         <Col flex="auto" md="" xs={{ span: 24 }}>
           <Content>
@@ -276,6 +273,32 @@ const Results = () => {
   );
 };
 
+Results.MainTitle = styled(Title)`
+  &&& {
+    position: relative;
+    text-align: center;
+    font-size: 80px;
+    margin-bottom: 60px;
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      width: 320px;
+      height: 30px;
+      background: ${(props) => props.theme.colors.primary};
+      transform: translateX(-50%);
+      z-index: -1;
+      max-width: 100%;
+    }
+
+    @media screen and (max-width: 575px) {
+      font-size: 60px;
+    }
+  }
+`;
+
 Results.Content = styled.section`
   margin: 0 0 60px 50px;
 
@@ -284,60 +307,6 @@ Results.Content = styled.section`
   }
 `;
 
-// Results.Line = styled.div`
-//   display: flex;
-//   margin-bottom: 8px;
-//   margin-left: 50px;
-//   vertical-align: middle;
-
-//   @media screen and (max-width: 1000px) {
-//     margin-left: 0;
-//   }
-
-//   .key {
-//     display: inline-block;
-//     position: relative;
-//     flex-grow: 2;
-
-//     span {
-//       background: white;
-//       padding-right: 12px;
-//     }
-
-//     &:before {
-//       content: "";
-//       position: absolute;
-//       left: 0;
-//       top: 50%;
-//       width: 100%;
-//       height: 1px;
-//       background: black;
-//       z-index: -1;
-//     }
-//   }
-
-//   .value {
-//     font-size: 120%;
-//     padding-left: 12px;
-//     padding: 4px 8px;
-//     border: 3px solid ${(props) => props.theme.colors.primary};
-//     white-space: nowrap;
-//   }
-
-//   .info {
-//     width: 32px;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-
-//     > .anticon {
-//       font-size: 20px;
-//       color: ${(props) => props.theme.colors.grey};
-//       cursor: pointer;
-//     }
-//   }
-// `;
-
 Results.RightCol = styled(Col)`
   border: 1px solid ${(props) => props.theme.colors.border};
   border-radius: 8px;
@@ -345,6 +314,6 @@ Results.RightCol = styled(Col)`
   min-width: 350px;
 `;
 
-const { Content, RightCol } = Results;
+const { Content, RightCol, MainTitle } = Results;
 
 export default Results;

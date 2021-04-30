@@ -5,6 +5,7 @@ export const STEPS = {
   SALARY: "SALARY",
   ATECO: "ATECO",
   PENSION: "PENSION",
+  LOCATION: "LOCATION",
   RESULTS: "RESULTS",
 };
 
@@ -71,7 +72,7 @@ Official list:
 https://www1.finanze.gov.it/finanze2/dipartimentopolitichefiscali/fiscalitalocale/addregirpef/sceltaregione.htm
 */
 export const IRPEF_REGIONAL_ADDITIONS = {
-  abbruzzo: [{ from: 0, tax: 1.73, tp: Number.MAX_VALUE }],
+  abbruzzo: [{ from: 0, tax: 1.73, to: Number.MAX_VALUE }],
   basilicata: [
     {
       from: 0,
@@ -126,8 +127,8 @@ export const IRPEF_REGIONAL_ADDITIONS = {
       tax: 1.73,
     },
   ],
-  calabria: [{ from: 0, tax: 1.73, tp: Number.MAX_VALUE }],
-  campania: [{ from: 0, tax: 2.03, tp: Number.MAX_VALUE }],
+  calabria: [{ from: 0, tax: 1.73, to: Number.MAX_VALUE }],
+  campania: [{ from: 0, tax: 2.03, to: Number.MAX_VALUE }],
   emiliaRomagna: [
     {
       from: 0,
@@ -526,4 +527,28 @@ export const PENSIONS = [
   { name: "cnpadc", percentage: "10", label: "Commercialisti" },
   { name: "cnpr", percentage: "10", label: "Ragionieri e Periti commerciali" },
   { name: "inps", percentage: "25.72", label: "Altro" },
+];
+
+export const REGIONS = [
+  { id: "abbruzzo", name: "Abbruzzo" },
+  { id: "basilicata", name: "Basilicata" },
+  { id: "bolzano", name: "Bolzano" },
+  { id: "calabria", name: "Calabria" },
+  { id: "campania", name: "Campania" },
+  { id: "emiliaRomagna", name: "Emilia Romagna" },
+  { id: "friuliveneziagiulia", name: "Friuli Venezia Giulia" },
+  { id: "lazio", name: "Lazio" },
+  { id: "liguria", name: "Liguria" },
+  { id: "lombardia", name: "Lombardia" },
+  { id: "marche", name: "Marche" },
+  { id: "molise", name: "Molise" },
+  { id: "piemonte", name: "Piemonte" },
+  { id: "puglia", name: "Puglia" },
+  { id: "sardegna", name: "Sardegna" },
+  { id: "sicilia", name: "Sicilia" },
+  { id: "toscana", name: "Toscana" },
+  { id: "trento", name: "Trento" },
+  { id: "umbria", name: "Umbria" },
+  { id: "valledaosta", name: "Valle d'Aosta" },
+  { id: "veneto", name: "Veneto" },
 ];

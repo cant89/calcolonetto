@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import InputNumber from "../../components/form/InputNumber";
 import Select from "../../components/form/Select";
-import { VAT_TYPE_TYPES, PENSIONS } from "../../constants";
+import { VAT_TYPE_TYPES, PENSIONS, REGIONS } from "../../constants";
 
 const { Option } = Select;
 
@@ -13,7 +13,7 @@ const ConfiguratorForm = ({ data = {}, onChange }) => {
     onChange(key, value);
   };
 
-  const { gross, vat, pension } = data;
+  const { gross, vat, pension, location } = data;
 
   return (
     <section>
@@ -102,6 +102,21 @@ const ConfiguratorForm = ({ data = {}, onChange }) => {
             </Badge>
           </Col>
         </Row>
+      </FormField>
+
+      <FormField>
+        <label>Luogo</label>
+        <Select
+          value={location}
+          onChange={handleOnChange("LOCATION")}
+          width="100%"
+        >
+          {REGIONS.map(({ name, id }) => (
+            <Option value={id} key={id}>
+              {name}
+            </Option>
+          ))}
+        </Select>
       </FormField>
     </section>
   );

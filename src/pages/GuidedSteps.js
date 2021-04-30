@@ -10,6 +10,7 @@ import QuestionVatType from "./steps/VatType";
 import QuestionSalary from "./steps/Salary";
 import QuestionAteco from "./steps/Ateco";
 import QuestionPension from "./steps/Pension";
+import QuestionLocation from "./steps/Location";
 import Results from "./steps/Results";
 import useQueryParams from "../hooks/useQueryParams";
 import { STEPS } from "../constants";
@@ -21,6 +22,7 @@ const StepsComponents = {
   [STEPS.VAT_TYPE]: QuestionVatType,
   [STEPS.ATECO]: QuestionAteco,
   [STEPS.PENSION]: QuestionPension,
+  [STEPS.LOCATION]: QuestionLocation,
   [STEPS.RESULTS]: Results,
 };
 
@@ -49,6 +51,10 @@ GuidedSteps.StepsWrapper = styled.section`
   margin: 0 auto;
   border: 1px solid ${(props) => props.theme.colors.border};
   border-radius: 8px;
+
+  @media screen and (max-width: 575px) {
+    padding: 32px;
+  }
 `;
 
 GuidedSteps.ResultsWrapper = styled.section`
@@ -56,6 +62,10 @@ GuidedSteps.ResultsWrapper = styled.section`
   width: 100%;
   max-width: 1000px;
   margin: 0 auto;
+
+  @media screen and (max-width: 575px) {
+    padding: 32px;
+  }
 `;
 
 const { StepsWrapper, ResultsWrapper } = GuidedSteps;

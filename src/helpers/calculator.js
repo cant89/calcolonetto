@@ -63,7 +63,7 @@ const getTaxesIrpef = ({ vat, irpefTaxableSalary }) => {
   }
 };
 
-const getTaxesIrpefRegional = ({ vat, irpefTaxableSalary }) => {
+const getTaxesIrpefRegional = ({ vat, irpefTaxableSalary, LOCATION }) => {
   if (vat.type !== VAT_TYPE_TYPES.SEMPLIFICATO) {
     return {
       amount: 0,
@@ -71,12 +71,10 @@ const getTaxesIrpefRegional = ({ vat, irpefTaxableSalary }) => {
     };
   }
 
-  const region = "emiliaRomagna";
-
   return {
-    percentage: IRPEF_REGIONAL_ADDITIONS[region],
+    percentage: IRPEF_REGIONAL_ADDITIONS[LOCATION],
     amount: calcIncrmentalTax({
-      schema: IRPEF_REGIONAL_ADDITIONS[region],
+      schema: IRPEF_REGIONAL_ADDITIONS[LOCATION],
       amount: irpefTaxableSalary,
     }),
   };
@@ -119,7 +117,7 @@ const getPensionAmount = ({ SALARY, vat, pensionPercentage, atecoData }) => {
 };
 
 export const getResult = (
-  { VAT, VAT_TYPE, VAT_YEAR, ATECO, PENSION, SALARY },
+  { VAT, VAT_TYPE, VAT_YEAR, ATECO, PENSION, LOCATION, SALARY },
   { atecoData }
 ) => {
   const vatType = VAT_TYPE || getVatType({ SALARY, VAT });
@@ -153,7 +151,11 @@ export const getResult = (
   });
 
   const irpef = getTaxesIrpef({ vat, irpefTaxableSalary });
-  const irpefRegional = getTaxesIrpefRegional({ vat, irpefTaxableSalary });
+  const irpefRegional = getTaxesIrpefRegional({
+    vat,
+    irpefTaxableSalary,
+    LOCATION,
+  });
   const irpefMunicipality = getTaxesIrpefMunicipality({
     vat,
     irpefTaxableSalary,
@@ -174,6 +176,7 @@ export const getResult = (
 
   return {
     gross: SALARY,
+    location: LOCATION,
     net,
     vat,
     pension,

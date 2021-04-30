@@ -14,21 +14,16 @@ function Home() {
   return (
     <section>
       <Home.Intro>
-        <Col span={16}>
+        <Col span={24} order={2} sm={{ order: 1, span: 16 }}>
           <Typography.Title level={1}>
             La Partita IVA,
             <br /> resa semplice.
           </Typography.Title>
           <Typography.Title level={3}>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: t(
-                  `Stima al volo il salario netto,<br /> 
-                  le tasse da pagare e la pensione da versare <br />
-                  in base al tuo salario annuo lordo.`
-                ),
-              }}
-            />
+            Stima al volo il salario netto,
+            <br />
+            le tasse da pagare e la pensione da versare <br />
+            in base al tuo salario annuo lordo.
           </Typography.Title>
           <Typography.Title level={4} color="primary">
             {t("Facile. Veloce. Gratis.")}
@@ -60,7 +55,7 @@ function Home() {
           </Button>
         </Col>
 
-        <Col span={8}>
+        <Col span={24} order={1} sm={{ order: 2, span: 8 }}>
           <img src="/images/intro.svg" alt="calcola salario netto da lordo" />
         </Col>
       </Home.Intro>
@@ -73,11 +68,20 @@ Home.Intro = styled(Row)`
   margin: 0 auto;
   padding: 80px;
 
+  @media screen and (max-width: 575px) {
+    padding: 32px;
+  }
+
   h1 {
     font-size: 80px;
     width: 100%;
     margin-bottom: 16px;
+
+    @media screen and (max-width: 900px) {
+      font-size: 50px;
+    }
   }
+
   h3 {
     width: 100%;
     color: rgb(134 134 134);
