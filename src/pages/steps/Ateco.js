@@ -71,6 +71,11 @@ function QuestionAteco({ t, className }) {
       <Paragraph>
         {hasVat ? (
           <>
+            Il codice ATECO è il codice identificativo del tipo di attività che
+            svolgi.
+          </>
+        ) : (
+          <>
             Cerca il tuo mestiere per parola chiave in modo da ottenere il
             codice ATECO che più rispecchia il tipo di attività che svolgi. Per
             una analisi più approfondita visita{" "}
@@ -82,11 +87,6 @@ function QuestionAteco({ t, className }) {
               il sito ufficiale
             </a>{" "}
             o contatta un commercialista.
-          </>
-        ) : (
-          <>
-            Il codice ATECO è il codice identificativo del tipo di attività che
-            svolgi.
           </>
         )}
       </Paragraph>
