@@ -12,7 +12,6 @@ import useQueryParams from "../../hooks/useQueryParams";
 
 import getAtecoCodes from "../../services/getAtecoCodes";
 import Title from "../../components/typo/Title";
-import Link from "../../components/Link";
 import ActionsBar from "../../components/ActionsBar";
 import TiledTitle from "../../components/typo/TiledTitle";
 import ConfiguratorForm from "../../modules/configurator/ConfiguratorForm";
@@ -42,7 +41,7 @@ const Results = () => {
     updateHistoryData(key, value);
   };
 
-  const onIrpefMunicipalityInfoClick = () => {
+  const onIrpefMunicipalityHelpClick = () => {
     Modal.info({
       title: "Addizionale comunale IRPEF",
       content: (
@@ -65,7 +64,7 @@ const Results = () => {
     });
   };
 
-  const onIrpefRegionalInfoClick = () => {
+  const onIrpefRegionalHelpClick = () => {
     Modal.info({
       title: "Addizionale regionale IRPEF",
       content: (
@@ -80,7 +79,7 @@ const Results = () => {
     });
   };
 
-  const onIrpefInfoClick = () => {
+  const onIrpefHelpClick = () => {
     Modal.info({
       title: "Cos'è l'IRPEF?",
       content: (
@@ -98,7 +97,7 @@ const Results = () => {
     });
   };
 
-  const onPensionInfoClick = () => {
+  const onPensionHelpClick = () => {
     Modal.info({
       title: "La pensione",
       content: (
@@ -218,7 +217,7 @@ const Results = () => {
                 </Line.Key>
                 <Line.Value> € {formatNum(taxes.irpef.amount)}</Line.Value>
                 <Line.Info>
-                  <InfoCircleOutlined onClick={onIrpefInfoClick} />
+                  <InfoCircleOutlined onClick={onIrpefHelpClick} />
                 </Line.Info>
               </Line>
 
@@ -230,7 +229,7 @@ const Results = () => {
                     € {formatNum(taxes.irpefRegional.amount)}
                   </Line.Value>
                   <Line.Info>
-                    <InfoCircleOutlined onClick={onIrpefRegionalInfoClick} />
+                    <InfoCircleOutlined onClick={onIrpefRegionalHelpClick} />
                   </Line.Info>
                 </Line>
               ) : null}
@@ -243,7 +242,7 @@ const Results = () => {
                   </Line.Value>
                   <Line.Info>
                     <InfoCircleOutlined
-                      onClick={onIrpefMunicipalityInfoClick}
+                      onClick={onIrpefMunicipalityHelpClick}
                     />
                   </Line.Info>
                 </Line>
@@ -253,7 +252,7 @@ const Results = () => {
                 <Line.Key>Previdenza sociale (Pensione)</Line.Key>
                 <Line.Value>€ {formatNum(pension.amount)}</Line.Value>
                 <Line.Info>
-                  <InfoCircleOutlined onClick={onPensionInfoClick} />
+                  <InfoCircleOutlined onClick={onPensionHelpClick} />
                 </Line.Info>
               </Line>
             </Content>

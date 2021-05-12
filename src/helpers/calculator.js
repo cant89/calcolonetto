@@ -29,9 +29,13 @@ const getVatCoeff = ({ vatType, atecoData }) => {
   return atecoData?.coeff;
 };
 
-const getHasFivePercent = ({ VAT_YEAR, vatType }) => {
+const getHasFivePercent = ({ VAT_YEAR, vatType, isFivePercent }) => {
   if (vatType !== VAT_TYPE_TYPES.FORFETTARIO) {
     return;
+  }
+
+  if (isFivePercent) {
+    return isFivePercent === "yes";
   }
 
   return !VAT_YEAR || new Date().getFullYear() - Number(VAT_YEAR) <= 5;
@@ -117,12 +121,26 @@ const getPensionAmount = ({ SALARY, vat, pensionPercentage, atecoData }) => {
 };
 
 export const getResult = (
-  { VAT, VAT_TYPE, VAT_YEAR, ATECO, PENSION, LOCATION, SALARY, monthsNum = 12 },
+  {
+    VAT,
+    VAT_TYPE,
+    VAT_YEAR,
+    ATECO,
+    PENSION,
+    LOCATION,
+    SALARY,
+    monthsNum = 12,
+    isFivePercent,
+  },
   { atecoData }
 ) => {
   const vatType = VAT_TYPE || getVatType({ SALARY, VAT });
   const vatCoeff = getVatCoeff({ vatType, atecoData });
-  const hasFivePercent = getHasFivePercent({ VAT_YEAR, vatType });
+  const hasFivePercent = getHasFivePercent({
+    VAT_YEAR,
+    vatType,
+    isFivePercent,
+  });
   const vat = {
     type: vatType,
     coeff: vatCoeff,

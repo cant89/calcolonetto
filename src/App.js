@@ -16,6 +16,8 @@ import GuidedSteps from "./pages/GuidedSteps";
 import AdvancedConfigurator from "./pages/AdvancedConfigurator";
 import Header from "./components/Header";
 
+import GlobalStyle from "./globalStyle";
+
 const theme = {
   colors: {
     primary: "#00ffde",
@@ -39,6 +41,7 @@ const MainRoute = ({ children }) => (
 function App(props) {
   return (
     <QueryClientProvider client={queryClient}>
+      <GlobalStyle />
       <ThemeProvider theme={theme}>
         <Router>
           <Switch>

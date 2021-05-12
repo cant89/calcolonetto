@@ -1,5 +1,6 @@
 import React from "react";
-import { Row, Col } from "antd";
+import { Row, Col, Modal, Collapse, Alert } from "antd";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 import InputNumber from "../../components/form/InputNumber";
@@ -11,6 +12,70 @@ const { Option } = Select;
 const ConfiguratorForm = ({ data = {}, onChange }) => {
   const handleOnChange = (key) => (value) => {
     onChange(key, value);
+  };
+
+  const onIsFivePercentHelpClick = () => {
+    Modal.info({
+      title: "Agevolazione IRPEF al 5%",
+      width: 600,
+      content: (
+        <>
+          <p>A chi spetta?</p>
+          <p>
+            <strong>
+              A chi deve aprire una nuova P.IVA con regime forfettario, o a chi
+              ne ha aperta una non oltre 5 anni fa.
+            </strong>
+          </p>
+          <p>
+            Trascorsi i primi 5 anni di attvità l'imposta (la tassa) IRPEF sul
+            reddito imponibile, per il regime forfettario, passa al 15%.
+          </p>
+          <div style={{ marginTop: "24px" }}>
+            <Alert
+              message="Casi particolari"
+              type="warning"
+              description={
+                <div>
+                  E' da tenere presente che anche le seguenti tre condizoni
+                  devono essere rispettate per potere usufruire di tale
+                  agevolazione:
+                  <Collapse ghost>
+                    <Collapse.Panel header="Espandi le condizioni" key="1">
+                      <ol>
+                        <li>
+                          Che non sia stata esercitata, nei tre anni precedenti
+                          l'inizio dell’attività, attività artistica,
+                          professionale ovvero d'impresa, anche in forma
+                          associata o familiare
+                        </li>
+                        <li>
+                          Che l’attività da esercitare non costituisca, in
+                          nessun modo, mera prosecuzione di altra attività
+                          precedentemente svolta sotto forma di lavoro
+                          dipendente o autonomo, escluso il caso in cui
+                          l’attività precedentemente svolta consista nel periodo
+                          di pratica obbligatoria ai fini dell'esercizio di arti
+                          o professioni
+                        </li>
+                        <li>
+                          Qualora venga proseguita un'attività svolta in
+                          precedenza da altro soggetto, l'ammontare dei relativi
+                          ricavi e compensi, realizzati nel periodo d'imposta
+                          precedente quello di riconoscimento del beneficio, non
+                          sia superiore ai limiti che, a seconda dell’attività,
+                          consentono l’accesso al regime.
+                        </li>
+                      </ol>
+                    </Collapse.Panel>
+                  </Collapse>
+                </div>
+              }
+            />
+          </div>
+        </>
+      ),
+    });
   };
 
   const { gross, vat, pension, location, monthsNum } = data;
@@ -88,6 +153,28 @@ const ConfiguratorForm = ({ data = {}, onChange }) => {
             ) : null}
           </Col>
         </Row>
+      </FormField>
+
+      <FormField visible={vat?.type === VAT_TYPE_TYPES.FORFETTARIO}>
+        <label>
+          Agevolazione al 5%{" "}
+          <InfoCircleOutlined onClick={onIsFivePercentHelpClick} />
+        </label>
+
+        <Select
+          value={vat?.hasFivePercent ? "yes" : "no"}
+          onChange={(value) => {
+            handleOnChange("isFivePercent")(value);
+          }}
+          width="100%"
+        >
+          <Option value="yes" key="yes">
+            Si
+          </Option>
+          <Option value="no" key="no">
+            No
+          </Option>
+        </Select>
       </FormField>
 
       <FormField>
