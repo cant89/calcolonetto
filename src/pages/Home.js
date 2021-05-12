@@ -3,7 +3,13 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import { Row, Col, Typography, Divider } from "antd";
-import { ArrowRightOutlined, ControlOutlined } from "@ant-design/icons";
+import {
+  ArrowRightOutlined,
+  ControlOutlined,
+  ThunderboltOutlined,
+  SafetyCertificateOutlined,
+  EyeInvisibleOutlined,
+} from "@ant-design/icons";
 
 import { ROUTES } from "../constants";
 import Button from "../components/Button";
@@ -25,8 +31,16 @@ function Home() {
             le tasse da pagare e la pensione da versare <br />
             in pochi semplici passi.
           </Typography.Title>
-          <Typography.Title level={4} color="primary">
-            {t("Facile. Veloce. Gratis.")}
+          <Typography.Title level={4} color="primary" className="keyPoints">
+            <div>
+              <SafetyCertificateOutlined /> Gratis.
+            </div>
+            <div>
+              <ThunderboltOutlined /> Immediato.
+            </div>
+            <div>
+              <EyeInvisibleOutlined /> Nessuna registrazione.
+            </div>
           </Typography.Title>
           <Button
             size="large"
@@ -99,6 +113,16 @@ Home.Intro = styled(Row)`
 
   img {
     width: 100%;
+  }
+  .keyPoints {
+    > div {
+      margin-bottom: 4px;
+    }
+
+    .anticon {
+      color: rgb(134 134 134);
+      margin-right: 4px;
+    }
   }
 `;
 
