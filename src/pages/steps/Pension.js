@@ -8,16 +8,11 @@ import { STEPS, PENSIONS } from "../../constants";
 import styled from "styled-components";
 
 function QuestionPension({ t }) {
-  const {
-    handleChange,
-    handleSubmit,
-    error,
-    prevStep,
-    selection,
-  } = useStepManager({
-    stepKey: STEPS.PENSION,
-    errorMessage: t("Seleziona una opzione"),
-  });
+  const { handleChange, handleSubmit, error, prevStep, selection } =
+    useStepManager({
+      stepKey: STEPS.PENSION,
+      errorMessage: t("Seleziona una opzione"),
+    });
 
   const showInfoModal = () => {
     Modal.info({
@@ -54,9 +49,11 @@ function QuestionPension({ t }) {
 
   return (
     <section>
-      <Title>{t("Quale categoria più ti si addice?")}</Title>
+      <Title>{t("A quale categoria appartieni?")}</Title>
       <StyledAlert
-        message={t("Questo ci serve per capire il tuo Ente Previdenziale")}
+        message={t(
+          "Questo ci serve per capire il tuo Ente Previdenziale, ovvero l'ente al quale verserai i tuoi contributi per la pensione."
+        )}
         description={
           <div>
             {t(

@@ -7,19 +7,16 @@ import { STEPS } from "../../constants";
 import useStepManager from "../../hooks/useStepManager";
 
 function QuestionVatYear({ t }) {
-  const {
-    handleChange,
-    handleSubmit,
-    error,
-    prevStep,
-    selection,
-  } = useStepManager({
-    stepKey: STEPS.VAT_YEAR,
-    errorMessage: t("Inserisci un anno valido"),
-    isValid: (value) =>
-      // eslint-disable-next-line eqeqeq
-      value > 0 && value < new Date().getFullYear() && Number(value) == value,
-  });
+  const { handleChange, handleSubmit, error, prevStep, selection } =
+    useStepManager({
+      stepKey: STEPS.VAT_YEAR,
+      errorMessage: t("Inserisci un anno valido"),
+      isValid: (value) =>
+        // eslint-disable-next-line eqeqeq
+        value > 0 &&
+        value <= new Date().getFullYear() &&
+        String(parseInt(value)) === value,
+    });
 
   return (
     <section>

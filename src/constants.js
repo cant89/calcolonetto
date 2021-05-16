@@ -526,6 +526,7 @@ export const PENSIONS = [
   { name: "enpaf", percentage: "10", label: "Farmacisti" },
   { name: "cnpadc", percentage: "10", label: "Commercialisti" },
   { name: "cnpr", percentage: "10", label: "Ragionieri e Periti commerciali" },
+  { name: "ipsoa", percentage: "24", label: "Artigiani e commercianti" },
   { name: "inps", percentage: "25.72", label: "Altro" },
 ];
 
