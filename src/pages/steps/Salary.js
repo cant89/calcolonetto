@@ -3,23 +3,24 @@ import InputNumber from "../../components/form/InputNumber";
 import Title from "../../components/typo/Title";
 import ActionsBar from "../../components/ActionsBar";
 import useStepManager from "../../hooks/useStepManager";
-import { STEPS } from "../../constants";
+import { STEPS, VAT_TYPES } from "../../constants";
 
 function QuestionSalary({ t }) {
-  const {
-    handleChange,
-    handleSubmit,
-    error,
-    prevStep,
-    selection,
-  } = useStepManager({
-    stepKey: STEPS.SALARY,
-    errorMessage: t("Inserisci il tuo salario"),
-  });
+  const { handleChange, handleSubmit, error, prevStep, selection } =
+    useStepManager({
+      stepKey: STEPS.SALARY,
+      errorMessage: t("Inserisci il tuo salario"),
+    });
+
+  const hasVat = selection[STEPS.VAT] === VAT_TYPES.YES;
 
   return (
     <section>
-      <Title>{t("Qual'è il tuo salario annuo lordo?")}</Title>
+      <Title>
+        {hasVat
+          ? "Qual'è il tuo salario annuo lordo?"
+          : "Quanto pensi di fatturare in un'anno?"}
+      </Title>
 
       <InputNumber
         onChange={handleChange}
