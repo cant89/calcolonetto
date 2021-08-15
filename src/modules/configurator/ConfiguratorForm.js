@@ -92,7 +92,7 @@ const ConfiguratorForm = ({ data = {}, onChange }) => {
               step={1000}
               width="100%"
               parser={(value) =>
-                value.length ? value.replace(/€\s?|(,*)/g, "") : 0
+                value?.length ? value.replace(/€\s?|(,*)/g, "") : 0
               }
               formatter={(value) =>
                 `€ ${String(value)

@@ -128,12 +128,15 @@ export const getResult = (
     ATECO,
     PENSION,
     LOCATION,
-    SALARY,
+    SALARY = 0,
     monthsNum = 12,
     isFivePercent,
   },
   { atecoData }
 ) => {
+  if (SALARY === "") {
+    SALARY = 0;
+  }
   const vatType = VAT_TYPE || getVatType({ SALARY, VAT });
   const vatCoeff = getVatCoeff({ vatType, atecoData });
   const hasFivePercent = getHasFivePercent({
