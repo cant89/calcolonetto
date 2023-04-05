@@ -104,7 +104,7 @@ const Results = () => {
         <>
           <p>
             In Italia è obbligatorio versare una quota da destinare alla propria
-            pensione futura.
+            pensione futura, oltre che all'asisstenza in caso di malattia.
           </p>
           <p>
             L'ammontare di questa quota è determinato dal tipo di Cassa
@@ -119,7 +119,8 @@ const Results = () => {
           <p>
             Tutte le altre attività si appoggiano alla Gestione Separata INPS,
             la quale applica una aliquota fissa del{" "}
-            {PENSIONS.find(({ name }) => name === "inps")?.percentage} %
+            {PENSIONS.find(({ name }) => name === "inps")?.percentage?.[0].tax}{" "}
+            %
           </p>
         </>
       ),
@@ -249,7 +250,7 @@ const Results = () => {
               ) : null}
 
               <Line isNotValid={isDataNotComplete}>
-                <Line.Key>Previdenza sociale (Pensione)</Line.Key>
+                <Line.Key>Previdenza sociale</Line.Key>
                 <Line.Value>€ {formatNum(pension.amount)}</Line.Value>
                 <Line.Info>
                   <InfoCircleOutlined onClick={onPensionHelpClick} />
