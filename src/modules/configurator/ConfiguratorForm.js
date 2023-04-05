@@ -178,7 +178,7 @@ const ConfiguratorForm = ({ data = {}, onChange }) => {
       </FormField>
 
       <FormField>
-        <label>Cassa pensionistica</label>
+        <label>Cassa previdenziale</label>
         <Row gutter="8" align="middle" wrap={false}>
           <Col flex="auto">
             <Select
