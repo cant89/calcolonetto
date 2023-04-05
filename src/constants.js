@@ -276,7 +276,7 @@ export const IRPEF_MUNICIPALITY_ADDITION = {
     },
     {
       from: 75001,
-      to: Number.Max,
+      to: Number.MAX_VALUE,
       tax: 0.8,
     },
   ],
