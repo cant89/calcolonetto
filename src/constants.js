@@ -35,21 +35,16 @@ export const IRPEF_SEMPLIFICATO = [
   {
     from: 15001,
     to: 28000,
-    tax: 27,
+    tax: 25,
   },
   {
     from: 28001,
-    to: 55000,
-    tax: 38,
+    to: 50000,
+    tax: 35,
   },
   {
-    from: 55001,
-    to: 75000,
-    tax: 41,
-  },
-  {
-    from: 75001,
-    to: 99999999999,
+    from: 50001,
+    to: Number.MAX_VALUE,
     tax: 43,
   },
 ];
@@ -72,34 +67,65 @@ Official list:
 https://www1.finanze.gov.it/finanze2/dipartimentopolitichefiscali/fiscalitalocale/addregirpef/sceltaregione.htm
 */
 export const IRPEF_REGIONAL_ADDITIONS = {
-  abbruzzo: [{ from: 0, tax: 1.73, to: Number.MAX_VALUE }],
-  basilicata: [
-    {
-      from: 0,
-      to: 15000,
-      tax: 1.23,
-    },
-    {
-      from: 15001,
-      to: 28000,
-      tax: 1.23,
-    },
-    {
-      from: 28001,
-      to: 55000,
-      tax: 1.23,
-    },
-    {
-      from: 55001,
-      to: 75000,
-      tax: 1.73,
-    },
-    {
-      from: 75001,
-      to: Number.MAX_VALUE,
-      tax: 2.33,
-    },
+  marche: [
+    { from: 0, to: 15000.0, tax: 1.23 },
+    { from: 15000.01, to: 28000.0, tax: 1.53 },
+    { from: 28000.01, to: 50000.0, tax: 1.7 },
+    { from: 50000.01, to: Number.MAX_VALUE, tax: 1.73 },
   ],
+  lombardia: [
+    { from: 0, to: 15000.0, tax: 1.23 },
+    { from: 15000.01, to: 28000.0, tax: 1.58 },
+    { from: 28000.01, to: 50000.0, tax: 1.72 },
+    { from: 50000.01, to: Number.MAX_VALUE, tax: 1.73 },
+  ],
+  molise: [
+    { from: 0, to: 15000.0, tax: 1.73 },
+    { from: 15000.01, to: 28000.0, tax: 1.93 },
+    { from: 28000.01, to: 50000.0, tax: 2.13 },
+    { from: 50000.01, to: Number.MAX_VALUE, tax: 2.33 },
+  ],
+  valledaosta: [{ from: 0, to: Number.MAX_VALUE, tax: 1.23 }],
+  abruzzo: [{ from: 0, to: Number.MAX_VALUE, tax: 1.73 }],
+  liguria: [
+    { from: 0, to: 15000.0, tax: 1.23 },
+    { from: 15000.01, to: 28000.0, tax: 1.79 },
+    { from: 28000.01, to: 50000.0, tax: 2.31 },
+    { from: 50000.01, to: Number.MAX_VALUE, tax: 2.33 },
+  ],
+  puglia: [
+    { from: 0, to: 15000.0, tax: 1.33 },
+    { from: 15000.01, to: 28000.0, tax: 1.43 },
+    { from: 28000.01, to: 50000.0, tax: 1.63 },
+    { from: 50000.01, to: Number.MAX_VALUE, tax: 1.85 },
+  ],
+  trento: [
+    { from: 0, to: 15000.0, tax: 1.23 },
+    { from: 15000.01, to: 28000.0, tax: 1.23 },
+    { from: 28000.01, to: 50000.0, tax: 1.23 },
+    { from: 50000.01, to: Number.MAX_VALUE, tax: 1.73 },
+  ],
+  emiliaromagna: [
+    { from: 0, to: 15000.0, tax: 1.33 },
+    { from: 15000.01, to: 28000.0, tax: 1.93 },
+    { from: 28000.01, to: 50000.0, tax: 2.03 },
+    { from: 50000.01, to: Number.MAX_VALUE, tax: 2.27 },
+  ],
+  umbria: [
+    { from: 0, to: 15000.0, tax: 1.23 },
+    { from: 15000.01, to: 28000.0, tax: 1.62 },
+    { from: 28000.01, to: 50000.0, tax: 1.67 },
+    { from: 50000.01, to: Number.MAX_VALUE, tax: 1.83 },
+  ],
+  campania: [
+    { from: 0, to: 15000.0, tax: 1.73 },
+    { from: 15000.01, to: 28000.0, tax: 2.96 },
+    { from: 28000.01, to: 50000.0, tax: 3.2 },
+    { from: 50000.01, to: Number.MAX_VALUE, tax: 3.33 },
+  ],
+  basilicata: [{ from: 0, to: Number.MAX_VALUE, tax: 1.23 }],
+  sicilia: [{ from: 0, to: Number.MAX_VALUE, tax: 1.23 }],
+  veneto: [{ from: 0, to: Number.MAX_VALUE, tax: 1.23 }],
   bolzano: [
     {
       from: 0,
@@ -113,47 +139,13 @@ export const IRPEF_REGIONAL_ADDITIONS = {
     },
     {
       from: 28001,
-      to: 55000,
+      to: 50000,
       tax: 1.23,
     },
     {
-      from: 55001,
-      to: 75000,
-      tax: 1.23,
-    },
-    {
-      from: 75001,
+      from: 50001,
       to: Number.MAX_VALUE,
       tax: 1.73,
-    },
-  ],
-  calabria: [{ from: 0, tax: 1.73, to: Number.MAX_VALUE }],
-  campania: [{ from: 0, tax: 2.03, to: Number.MAX_VALUE }],
-  emiliaRomagna: [
-    {
-      from: 0,
-      to: 15000,
-      tax: 1.33,
-    },
-    {
-      from: 15001,
-      to: 28000,
-      tax: 1.93,
-    },
-    {
-      from: 28001,
-      to: 55000,
-      tax: 2.03,
-    },
-    {
-      from: 55001,
-      to: 75000,
-      tax: 2.23,
-    },
-    {
-      from: 75001,
-      to: Number.MAX_VALUE,
-      tax: 2.33,
     },
   ],
   friuliveneziagiulia: [
@@ -169,219 +161,11 @@ export const IRPEF_REGIONAL_ADDITIONS = {
     },
     {
       from: 28001,
-      to: 55000,
+      to: 50000,
       tax: 1.23,
     },
     {
-      from: 55001,
-      to: 75000,
-      tax: 1.23,
-    },
-    {
-      from: 75001,
-      to: Number.MAX_VALUE,
-      tax: 1.23,
-    },
-  ],
-  lazio: [
-    {
-      from: 0,
-      to: 15000,
-      tax: 1.73,
-    },
-    {
-      from: 15001,
-      to: 28000,
-      tax: 2.73,
-    },
-    {
-      from: 28001,
-      to: 55000,
-      tax: 2.93,
-    },
-    {
-      from: 55001,
-      to: 75000,
-      tax: 3.23,
-    },
-    {
-      from: 75001,
-      to: Number.MAX_VALUE,
-      tax: 3.33,
-    },
-  ],
-  liguria: [
-    {
-      from: 0,
-      to: 15000,
-      tax: 1.23,
-    },
-    {
-      from: 15001,
-      to: 28000,
-      tax: 1.81,
-    },
-    {
-      from: 28001,
-      to: 55000,
-      tax: 2.31,
-    },
-    {
-      from: 55001,
-      to: 75000,
-      tax: 2.32,
-    },
-    {
-      from: 75001,
-      to: Number.MAX_VALUE,
-      tax: 2.33,
-    },
-  ],
-  lombardia: [
-    {
-      from: 0,
-      to: 15000,
-      tax: 1.23,
-    },
-    {
-      from: 15001,
-      to: 28000,
-      tax: 1.58,
-    },
-    {
-      from: 28001,
-      to: 55000,
-      tax: 1.72,
-    },
-    {
-      from: 55001,
-      to: 75000,
-      tax: 1.73,
-    },
-    {
-      from: 75001,
-      to: Number.MAX_VALUE,
-      tax: 1.74,
-    },
-  ],
-  marche: [
-    {
-      from: 0,
-      to: 15000,
-      tax: 1.23,
-    },
-    {
-      from: 15001,
-      to: 28000,
-      tax: 1.53,
-    },
-    {
-      from: 28001,
-      to: 55000,
-      tax: 1.7,
-    },
-    {
-      from: 55001,
-      to: 75000,
-      tax: 1.72,
-    },
-    {
-      from: 75001,
-      to: Number.MAX_VALUE,
-      tax: 1.73,
-    },
-  ],
-  molise: [
-    {
-      from: 0,
-      to: 15000,
-      tax: 1.73,
-    },
-    {
-      from: 15001,
-      to: 28000,
-      tax: 1.93,
-    },
-    {
-      from: 28001,
-      to: 55000,
-      tax: 2.13,
-    },
-    {
-      from: 55001,
-      to: 75000,
-      tax: 2.23,
-    },
-    {
-      from: 75001,
-      to: Number.MAX_VALUE,
-      tax: 2.33,
-    },
-  ],
-  piemonte: [
-    {
-      from: 0,
-      to: 15000,
-      tax: 1.62,
-    },
-    {
-      from: 15001,
-      to: 28000,
-      tax: 2.13,
-    },
-    {
-      from: 28001,
-      to: 55000,
-      tax: 2.75,
-    },
-    {
-      from: 55001,
-      to: 75000,
-      tax: 3.32,
-    },
-    {
-      from: 75001,
-      to: Number.MAX_VALUE,
-      tax: 3.33,
-    },
-  ],
-  puglia: [
-    {
-      from: 0,
-      to: 15000,
-      tax: 1.33,
-    },
-    {
-      from: 15001,
-      to: 28000,
-      tax: 1.43,
-    },
-    {
-      from: 28001,
-      to: 55000,
-      tax: 1.71,
-    },
-    {
-      from: 55001,
-      to: 75000,
-      tax: 1.72,
-    },
-    {
-      from: 75001,
-      to: Number.MAX_VALUE,
-      tax: 1.73,
-    },
-  ],
-  sardegna: [
-    {
-      from: 0,
-      to: Number.MAX_VALUE,
-      tax: 1.23,
-    },
-  ],
-  sicilia: [
-    {
-      from: 0,
+      from: 50001,
       to: Number.MAX_VALUE,
       tax: 1.23,
     },
@@ -399,86 +183,71 @@ export const IRPEF_REGIONAL_ADDITIONS = {
     },
     {
       from: 28001,
-      to: 55000,
+      to: 50000,
       tax: 1.68,
     },
     {
-      from: 55001,
-      to: 75000,
-      tax: 1.72,
-    },
-    {
-      from: 75001,
+      from: 50001,
       to: Number.MAX_VALUE,
       tax: 1.73,
     },
   ],
-  trento: [
+  piemonte: [
     {
       from: 0,
       to: 15000,
-      tax: 1.23,
+      tax: 1.62,
     },
     {
       from: 15001,
       to: 28000,
-      tax: 1.23,
+      tax: 2.13,
     },
     {
       from: 28001,
-      to: 55000,
+      to: 50000,
+      tax: 2.75,
+    },
+    {
+      from: 50001,
+      to: Number.MAX_VALUE,
+      tax: 3.33,
+    },
+  ],
+  sardegna: [
+    {
+      from: 0,
+      to: Number.MAX_VALUE,
       tax: 1.23,
     },
+  ],
+  calabria: [
     {
-      from: 55001,
-      to: 75000,
-      tax: 1.73,
-    },
-    {
-      from: 75001,
+      from: 0,
       to: Number.MAX_VALUE,
       tax: 1.73,
     },
   ],
-  umbria: [
+  lazio: [
     {
       from: 0,
       to: 15000,
-      tax: 1.23,
+      tax: 1.73,
     },
     {
       from: 15001,
       to: 28000,
-      tax: 1.63,
+      tax: 3.33,
     },
     {
       from: 28001,
-      to: 55000,
-      tax: 1.68,
+      to: 50000,
+      tax: 3.33,
     },
     {
-      from: 55001,
-      to: 75000,
-      tax: 1.73,
-    },
-    {
-      from: 75001,
+      from: 50001,
       to: Number.MAX_VALUE,
-      tax: 1.83,
-    },
-  ],
-  valledaosta: [
-    {
-      from: 0,
-      to: Number.MAX_VALUE,
-      tax: 1.23,
-    },
-  ],
-  veneto: [
-    {
-      from: 0,
-      to: Number.MAX_VALUE,
-      tax: 1.23,
+      tax: 3.33,
     },
   ],
 };
@@ -507,27 +276,75 @@ export const IRPEF_MUNICIPALITY_ADDITION = {
     },
     {
       from: 75001,
-      to: 99999999999,
+      to: Number.Max,
       tax: 0.8,
     },
   ],
 };
 
 export const PENSIONS = [
-  { name: "inarcassa", percentage: "10", label: "Architetti e Ingegneri" },
+  {
+    name: "inps",
+    percentage: [
+      { from: 0, to: 113000.52, tax: 26.63 },
+      { from: 113000.52, to: Number.Max, tax: 0 },
+    ],
+    label: "Gestione separata INPS",
+  },
+  {
+    name: "inarcassa",
+    percentage: [{ from: 0, to: Number.MAX_VALUE, tax: 10 }],
+    label: "Architetti e Ingegneri",
+    disabled: true,
+  },
   {
     name: "epap",
-    percentage: "10",
+    percentage: [{ from: 0, to: Number.MAX_VALUE, tax: 10 }],
     label: "Attuari, Agronomi e Forestali, Chimici, Geologi",
+    disabled: true,
   },
-  { name: "enpab", percentage: "10", label: "Biologi" },
-  { name: "enpacl", percentage: "10", label: "Consulenti del lavoro" },
-  { name: "inpgi", percentage: "10", label: "Giornalisti" },
-  { name: "enpaf", percentage: "10", label: "Farmacisti" },
-  { name: "cnpadc", percentage: "10", label: "Commercialisti" },
-  { name: "cnpr", percentage: "10", label: "Ragionieri e Periti commerciali" },
-  { name: "ipsoa", percentage: "24", label: "Artigiani e commercianti" },
-  { name: "inps", percentage: "25.72", label: "Altro" },
+  {
+    name: "enpab",
+    percentage: [{ from: 0, to: Number.MAX_VALUE, tax: 10 }],
+    label: "Biologi",
+    disabled: true,
+  },
+  {
+    name: "enpacl",
+    percentage: [{ from: 0, to: Number.MAX_VALUE, tax: 10 }],
+    label: "Consulenti del lavoro",
+    disabled: true,
+  },
+  {
+    name: "inpgi",
+    percentage: [{ from: 0, to: Number.MAX_VALUE, tax: 10 }],
+    label: "Giornalisti",
+    disabled: true,
+  },
+  {
+    name: "enpaf",
+    percentage: [{ from: 0, to: Number.MAX_VALUE, tax: 10 }],
+    label: "Farmacisti",
+    disabled: true,
+  },
+  {
+    name: "cnpadc",
+    percentage: [{ from: 0, to: Number.MAX_VALUE, tax: 10 }],
+    label: "Commercialisti",
+    disabled: true,
+  },
+  {
+    name: "cnpr",
+    percentage: [{ from: 0, to: Number.MAX_VALUE, tax: 10 }],
+    label: "Ragionieri e Periti commerciali",
+    disabled: true,
+  },
+  {
+    name: "ipsoa",
+    percentage: [{ from: 0, to: Number.MAX_VALUE, tax: 24 }],
+    label: "Artigiani e commercianti",
+    disabled: true,
+  },
 ];
 
 export const REGIONS = [
@@ -536,7 +353,7 @@ export const REGIONS = [
   { id: "bolzano", name: "Bolzano" },
   { id: "calabria", name: "Calabria" },
   { id: "campania", name: "Campania" },
-  { id: "emiliaRomagna", name: "Emilia Romagna" },
+  { id: "emiliaromagna", name: "Emilia Romagna" },
   { id: "friuliveneziagiulia", name: "Friuli Venezia Giulia" },
   { id: "lazio", name: "Lazio" },
   { id: "liguria", name: "Liguria" },

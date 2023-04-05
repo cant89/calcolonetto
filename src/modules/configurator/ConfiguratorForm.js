@@ -190,17 +190,13 @@ const ConfiguratorForm = ({ data = {}, onChange }) => {
               }}
               width="100%"
             >
-              {PENSIONS.map(({ name, label }) => (
-                <Option value={name} key={name}>
-                  ({name.toUpperCase()}) {label}
+              {PENSIONS.map(({ name, label, disabled }) => (
+                <Option value={name} key={name} disabled={disabled}>
+                  ({name.toUpperCase()}) {label}{" "}
+                  {disabled ? "(non ancora supportato)" : ""}
                 </Option>
               ))}
             </Select>
-          </Col>
-          <Col>
-            <Badge>
-              <span className="second half">{pension?.percentage}%</span>
-            </Badge>
           </Col>
         </Row>
       </FormField>

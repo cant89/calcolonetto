@@ -115,9 +115,12 @@ const getPensionTaxableSalary = ({ vat, atecoData, SALARY }) => {
     : SALARY;
 };
 
-const getPensionAmount = ({ SALARY, vat, pensionPercentage, atecoData }) => {
+const getPensionAmount = ({ SALARY, vat, pension, atecoData }) => {
   const taxableSalary = getPensionTaxableSalary({ vat, atecoData, SALARY });
-  return (taxableSalary / 100) * pensionPercentage;
+  return calcIncrmentalTax({
+    schema: pension?.percentage,
+    amount: taxableSalary,
+  });
 };
 
 export const getResult = (
@@ -155,7 +158,7 @@ export const getResult = (
   const pensionAmount = getPensionAmount({
     SALARY,
     vat,
-    pensionPercentage: PENSION?.percentage,
+    pension: PENSION,
     atecoData,
   });
   const pension = {
