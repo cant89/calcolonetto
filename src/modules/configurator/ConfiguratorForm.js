@@ -88,7 +88,7 @@ const ConfiguratorForm = ({ data = {}, onChange }) => {
             <label>Salario lordo annuo</label>
             <InputNumber
               value={gross?.yearly}
-              onChange={handleOnChange("SALARY")}
+              onChange={(value) => handleOnChange("SALARY")(Number(value))}
               step={1000}
               width="100%"
               parser={(value) =>
@@ -185,7 +185,7 @@ const ConfiguratorForm = ({ data = {}, onChange }) => {
               value={pension?.type}
               onChange={(value) => {
                 handleOnChange("PENSION")(
-                  PENSIONS.find((el) => el.name === value)
+                  PENSIONS.find((el) => el.name === value)?.name
                 );
               }}
               width="100%"
@@ -193,7 +193,7 @@ const ConfiguratorForm = ({ data = {}, onChange }) => {
               {PENSIONS.map(({ name, label, disabled }) => (
                 <Option value={name} key={name} disabled={disabled}>
                   ({name.toUpperCase()}) {label}{" "}
-                  {disabled ? "(non ancora supportato)" : ""}
+                  {disabled && "(non ancora supportato)"}
                 </Option>
               ))}
             </Select>

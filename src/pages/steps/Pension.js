@@ -47,6 +47,9 @@ function QuestionPension({ t }) {
     });
   };
 
+  const getPensionFromSelection = (pensionName) =>
+    PENSIONS.find(({ name }) => name === pensionName);
+
   return (
     <section>
       <Title>{t("A quale categoria appartieni?")}</Title>
@@ -70,13 +73,18 @@ function QuestionPension({ t }) {
 
       <Radio.Group
         onChange={({ target }) => {
-          handleChange(PENSIONS.find((el) => el.name === target.value));
+          handleChange(PENSIONS.find((el) => el.name === target.value)?.name);
         }}
-        value={selection[STEPS.PENSION]?.name}
+        value={getPensionFromSelection(selection[STEPS.PENSION])?.name}
       >
-        {PENSIONS.map(({ name, label }) => (
-          <Radio hasError={Boolean(error)} value={name} key={name}>
-            {label}
+        {PENSIONS.map(({ name, label, disabled }) => (
+          <Radio
+            hasError={Boolean(error)}
+            value={name}
+            key={name}
+            disabled={disabled}
+          >
+            {label} {disabled && "(non ancora supportato)"}
           </Radio>
         ))}
       </Radio.Group>

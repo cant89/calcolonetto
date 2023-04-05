@@ -4,6 +4,7 @@ import {
   IRPEF_SEMPLIFICATO,
   IRPEF_REGIONAL_ADDITIONS,
   IRPEF_MUNICIPALITY_ADDITION,
+  PENSIONS,
 } from "../constants";
 
 const calcIncrmentalTax = ({ schema = [], amount }) =>
@@ -155,15 +156,17 @@ export const getResult = (
     year: VAT_YEAR,
   };
 
+  const pensionData = PENSIONS.find((pension) => pension.name === PENSION);
+
   const pensionAmount = getPensionAmount({
     SALARY,
     vat,
-    pension: PENSION,
+    pension: pensionData,
     atecoData,
   });
   const pension = {
-    type: PENSION?.name,
-    percentage: PENSION?.percentage,
+    type: pensionData?.name,
+    percentage: pensionData?.percentage,
     amount: pensionAmount,
   };
 
