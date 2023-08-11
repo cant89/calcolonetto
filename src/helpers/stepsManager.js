@@ -1,4 +1,9 @@
-import { STEPS, VAT_TYPES, VAT_TYPE_TYPES } from "../constants";
+import {
+  STEPS,
+  VAT_TYPES,
+  VAT_TYPE_TYPES,
+  FORFETTARIO_LIMIT,
+} from "../constants";
 
 const isVat = (data) => {
   if (data.VAT === VAT_TYPES.YES) {
@@ -26,7 +31,7 @@ const isVatType = () => {
 const isSalary = ({ VAT_TYPE, SALARY }) => {
   if (
     VAT_TYPE === VAT_TYPE_TYPES.FORFETTARIO ||
-    (!VAT_TYPE && SALARY < 65000)
+    (!VAT_TYPE && SALARY < FORFETTARIO_LIMIT)
   ) {
     return STEPS.ATECO;
   }

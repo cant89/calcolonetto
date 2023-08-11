@@ -5,6 +5,7 @@ import {
   IRPEF_REGIONAL_ADDITIONS,
   IRPEF_MUNICIPALITY_ADDITION,
   PENSIONS,
+  FORFETTARIO_LIMIT,
 } from "../constants";
 
 const calcIncrmentalTax = ({ schema = [], amount }) =>
@@ -15,7 +16,7 @@ const calcIncrmentalTax = ({ schema = [], amount }) =>
   }, 0);
 
 const getVatType = ({ SALARY, VAT }) => {
-  if (SALARY < 65000 && VAT === VAT_TYPES.NO) {
+  if (SALARY < FORFETTARIO_LIMIT && VAT === VAT_TYPES.NO) {
     return VAT_TYPE_TYPES.FORFETTARIO;
   }
 
