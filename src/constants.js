@@ -26,6 +26,8 @@ export const VAT_TYPES = {
   NO: "no",
 };
 
+export const FORFETTARIO_LIMIT = 85000;
+
 export const IRPEF_SEMPLIFICATO = [
   {
     from: 0,
