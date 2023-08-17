@@ -288,7 +288,7 @@ export const PENSIONS = [
   {
     name: "inps",
     percentage: [
-      { from: 0, to: 113520, tax: 26.63 },
+      { from: 0, to: 113520, tax: 26.23 },
       { from: 113520, to: 999999999999, tax: 0 },
     ],
     label: "Gestione separata INPS",
