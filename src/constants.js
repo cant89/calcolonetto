@@ -31,13 +31,8 @@ export const FORFETTARIO_LIMIT = 85000;
 export const IRPEF_SEMPLIFICATO = [
   {
     from: 0,
-    to: 15000,
-    tax: 23,
-  },
-  {
-    from: 15001,
     to: 28000,
-    tax: 25,
+    tax: 23,
   },
   {
     from: 28001,
